@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesto Russia</title>
+    <link rel="stylesheet" href="./pages/index.css">
+</head>
+<body class="page">
+    <header class="header page__header">
+        <div class="header__logo"></div>
+        <div class="header__border-bottom"></div>
+    </header>
+
+    <main class="content page__content">
+        <section class="profile profile_padding_botton" aria-label="Секция с профилем">
+            <img class="profile__avatar" src="./images/profile-photo.jpg" alt="Фотография на аватар">
+            <div class="profile__info">
+                <h1 class="profile__title">Жак-Ив Кусто</h1>
+                <button class="profile__edit-button"></button>
+                <p class="profile__subtitle">Исследователь океана</p>
+            </div>
+            <button class="profile__add-button"></button>
+        </section>
+        <section class="elements" aria-label="Секция с картинками">
+            <ul class="element__list">
+                <li class="element__item">
+                    <img class="element__photo" src="./images/gaeta.jpg" alt="Фото панорамы городской застройки">
+                    <div class="element__container">
+                        <h2 class="element__title">Гаэта</h2>
+                        <button class="element__like element__like_active"></button>
+                    </div>
+                </li>
+                <li class="element__item">
+                    <img class="element__photo" src="./images/losGigantes.jpg" alt="Вид на побережье в Лос Гигантес">
+                    <div class="element__container">
+                        <h2 class="element__title">Лос-Гигантес</h2>
+                        <button class="element__like element__like_active"></button>
+                    </div>
+                </li>
+                <li class="element__item">
+                    <img class="element__photo" src="./images/mittenwald.jpg" alt="Миттенвальд у подножия гор">
+                    <div class="element__container">
+                        <h2 class="element__title">Миттенвальд</h2>
+                    <button class="element__like element__like_active"></button>
+                    </div>
+                </li>
+                <li class="element__item">
+                    <img class="element__photo" src="./images/barcelona.jpg" alt="Парк Гуэля в Барселоне">
+                    <div class="element__container">
+                        <h2 class="element__title">Барселона</h2>
+                        <button class="element__like element__like_active"></button>
+                    </div>
+                </li>
+                <li class="element__item">
+                    <img class="element__photo" src="./images/asia.jpg" alt="На реке Квай в тропической Азии">
+                    <div class="element__container">
+                        <h2 class="element__title">Квай</h2>
+                        <button class="element__like element__like_active"></button>
+                    </div>
+                </li>
+                <li class="element__item">
+                    <img class="element__photo" src="./images/badGoisern.jpg" alt="В Бад-Гойзерне в летний дождь">
+                    <div class="element__container">
+                        <h2 class="element__title">Бад-Гойзерн</h2>
+                        <button class="element__like element__like_active"></button>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="footer page__footer">
+        <p class="footer__text">© 2020 Mesto Russia</p>
+    </footer>
+</body>
+</html>

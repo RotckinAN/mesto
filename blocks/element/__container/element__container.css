@@ -1,0 +1,9 @@
+.element__container {
+    display: flex;
+    width: 246px;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: calc(25px + 282px);
+    left: 21px;
+}

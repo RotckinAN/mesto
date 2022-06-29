@@ -1,0 +1,7 @@
+.element__item {
+    height: 361px;
+    object-fit: contain;
+    background: #FFFFFF;
+    border-radius: 10px;
+    position: relative;
+}
