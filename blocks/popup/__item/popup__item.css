@@ -8,5 +8,6 @@
 }
 
 .popup__item:focus {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    outline: 2px solid rgb(0, 162, 255);
+    border-radius: 2px;
 }
