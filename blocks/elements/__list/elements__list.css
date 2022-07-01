@@ -1,4 +1,4 @@
-.element__list {
+.elements__list {
     list-style: none;
     display: grid;
     grid-template-columns: repeat(auto-fit, 282px);
