@@ -5,61 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mesto Russia</title>
     <link rel="stylesheet" href="./pages/index.css">
+    <!-- <style>*,*::before,*::after {outline: 1px solid red}</style> -->
 </head>
 <body class="page">
     <header class="header page__header">
         <div class="header__logo"></div>
-        <div class="header__border-bottom"></div>
     </header>
 
     <main class="content page__content">
-        <section class="profile profile_padding_botton" aria-label="Секция с профилем">
+        <section class="profile" aria-label="Секция с профилем">
             <img class="profile__avatar" src="./images/profile-photo.jpg" alt="Фотография на аватар">
             <div class="profile__info">
                 <h1 class="profile__title">Жак-Ив Кусто</h1>
-                <button class="profile__edit-button"></button>
+                <button class="profile__edit-button" type="button"></button>
                 <p class="profile__subtitle">Исследователь океана</p>
             </div>
-            <button class="profile__add-button"></button>
+            <button class="profile__add-button" type="button"></button>
         </section>
         <section class="elements" aria-label="Секция с картинками">
-            <ul class="elements__list element">
-                <li class="element__item">
+            <ul class="elements__list">
+                <li class="elements__item element">
                     <img class="element__photo" src="./images/gaeta.jpg" alt="Фото панорамы городской застройки">
                     <div class="element__container">
                         <h2 class="element__title">Гаэта</h2>
-                        <button class="element__like element__like_active"></button>
+                        <button class="element__like element__like_active" type="button"></button>
                     </div>
                 </li>
-                <li class="element__item">
+                <li class="elements__item element">
                     <img class="element__photo" src="./images/losGigantes.jpg" alt="Вид на побережье в Лос Гигантес">
                     <div class="element__container">
                         <h2 class="element__title">Лос-Гигантес</h2>
-                        <button class="element__like element__like_active"></button>
+                        <button class="element__like element__like_active" type="button"></button>
                     </div>
                 </li>
-                <li class="element__item">
+                <li class="elements__item element">
                     <img class="element__photo" src="./images/mittenwald.jpg" alt="Миттенвальд у подножия гор">
                     <div class="element__container">
                         <h2 class="element__title">Миттенвальд</h2>
-                    <button class="element__like element__like_active"></button>
+                        <button class="element__like element__like_active" type="button"></button>
                     </div>
                 </li>
-                <li class="element__item">
+                <li class="elements__item element">
                     <img class="element__photo" src="./images/barcelona.jpg" alt="Парк Гуэля в Барселоне">
                     <div class="element__container">
                         <h2 class="element__title">Барселона</h2>
-                        <button class="element__like element__like_active"></button>
+                        <button class="element__like element__like_active" type="button"></button>
                     </div>
                 </li>
-                <li class="element__item">
+                <li class="elements__item element">
                     <img class="element__photo" src="./images/asia.jpg" alt="На реке Квай в тропической Азии">
                     <div class="element__container">
                         <h2 class="element__title">Квай</h2>
-                        <button class="element__like element__like_active"></button>
+                        <button class="element__like element__like_active" type="button"></button>
                     </div>
                 </li>
-                <li class="element__item">
+                <li class="elements__item element">
                     <img class="element__photo" src="./images/badGoisern.jpg" alt="В Бад-Гойзерне в летний дождь">
                     <div class="element__container">
                         <h2 class="element__title">Бад-Гойзерн</h2>
@@ -74,23 +74,23 @@
         <p class="footer__text">© 2020 Mesto Russia</p>
     </footer>
 
-    <section class="popup">
+    <div class="popup">
         <div class="popup__container">
-            <button class="popup__close"></button>
-                <form action="./scripts/index.js" name="Форма редактировния профиля" class="popup__content">
+            <button class="popup__close" type="button"></button>
+                <form action="./scripts/index.js" name="ProfileEditingForm" class="popup__content">
                     <h2 class="popup__content-title">Редактировать профиль</h2>
                     <label for="name">
-                        <input type="text" name="Имя" class="popup__item popup__item_el_text popup__nameInput " autocomplete="off" id="name" value="">
+                        <input type="text" name="NameForm" class="popup__item popup__item_input_name" autocomplete="off" id="name" value="">
                     </label>
                     <label for="job">
-                        <input type="text" name="О себе" class="popup__item popup__item_el_text popup__jobInput" autocomplete="off" id="job" value="">
+                        <input type="text" name="JobForm" class="popup__item popup__item_input_job" autocomplete="off" id="job" value="">
                     </label>
                     <label for="save-button">
                         <input type="submit" value="Сохранить" class="popup__save-button" id="save-button">
                     </label>
                 </form>
         </div>
-    </section>
+    </div>
     <script src="./scripts/index.js"></script>
 </body>
 </html>

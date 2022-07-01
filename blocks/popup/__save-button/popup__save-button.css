@@ -13,6 +13,11 @@
     color: #FFFFFF;
 }
 
+.popup__save-button:hover {
+    opacity: 0.8;
+    transition: 0.3s;
+}
+
 @media screen and (max-width: 600px) {
     .popup__save-button {
         height: 46px;

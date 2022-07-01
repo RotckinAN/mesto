@@ -4,6 +4,7 @@
     box-sizing: border-box;
     background: none;
     border: 2px solid #FFFFFF;
+    border-radius: 2px;
     align-self: center;
     background-image: url(../../../images/vector-close.svg);
     background-size: 22px 22px;
@@ -23,5 +24,11 @@
     .profile__add-button {
         width: 282px;
         margin: 36px auto 0;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .profile__add-button {
+        background-size: 16px 16px; 
     }
 }

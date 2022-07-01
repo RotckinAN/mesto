@@ -1,6 +1,5 @@
-.element__item {
-    height: 361px;
-    object-fit: contain;
+.elements__item {
+    max-height: 361px;
     background: #FFFFFF;
     border-radius: 10px;
     position: relative;
