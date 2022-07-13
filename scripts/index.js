@@ -3,7 +3,6 @@ const selectors = {
     popup: '.popup',
     popupClose: '.popup__close',
     editButton: '.profile__edit-button',
-    // popupContent: '.popup__content',
     popupContentEdit: '.popup__content_template_1',
     popupContentAdd: 'popup__content_template_2',
     itemInputName: '.popup__item_input_name',
@@ -15,12 +14,24 @@ const selectors = {
     popupEdit: '.popup_template_1',
     popupAdd: '.popup_template_2',
     template: '.template',
-    elementsList: '.elements__list'
+    elementsList: '.elements__list',
+    elementsItem: '.elements__item',
+    itemPictureName: '.popup__item_input_pictureName',
+    inputPicture: '.popup__item_input_picture',
+    elementPhoto: '.element__photo',
+    elementPhotoTitle: '.element__title',
+    buttonRemove: '.element__trash',
+    buttonLike: '.element__like',
+    buttonLikeActive: 'element__like_active',
+    photoClose: '.photo-fullSize__close',
+    photoFullSize: '.photo-fullSize',
+    photoFullSizeOpened: 'photo-fullSize_opened',
+    photoFullSizeTitle: '.photo-fullSize__title',
+    photoFullSizeElement: '.photo-fullSize__element'
 };
 
 // объявления переменных 
 const popupElement = document.querySelector(selectors.popup); // выбираю весь попап
-// const popupCloseButtonElement = popupElement.querySelector(selectors.popupClose);  
 const popupEditOpenButtonElement = document.querySelector(selectors.editButton);  // выбираю кнопку редактирования профия
 const popupAddOpenButtonElement = document.querySelector(selectors.addButton);  // выбираю кнопку добавления карточек
 
@@ -30,11 +41,26 @@ const jobInput = formElementEdit.querySelector(selectors.itemInputJob);  // вы
 const profileTitle = document.querySelector(selectors.profTitle);  // выбираю заголовок на странице (имя)
 const profileSubtitle = document.querySelector(selectors.profSubtitle);  //выбираю подзаголовок на странице (работа)
 
-// функция открытия 1-го попапа
 const popupElementEdit = document.querySelector(selectors.popupEdit);  // выбираю 1-й попап 
 const popupCloseButtonElementEdit = popupElementEdit.querySelector(selectors.popupClose);  // выбираю кнопку закрытия попапа
+
+const popupElementAdd = document.querySelector(selectors.popupAdd);  // выбираю 2-й попап
+const popupCloseButtonElementAdd = popupElementAdd.querySelector(selectors.popupClose); // выбираю кнопку закрытия попапа
+const pictureNameInput = popupElementAdd.querySelector(selectors.itemPictureName);  // выбираю инпут в попапе (имя картинки)
+const pictureInput = popupElementAdd.querySelector(selectors.inputPicture);  // выбираю инпут в попапе (ссылка на картинку)
+
+const photoFullSize = document.querySelector(selectors.photoFullSize);
+const photoCloseButton = photoFullSize.querySelector(selectors.photoClose);
+const photoFullSizeTitle = photoFullSize.querySelector(selectors.photoFullSizeTitle);
+const photoFullSizeLink = photoFullSize.querySelector(selectors.photoFullSizeElement);
+
+const elementsList = document.querySelector(selectors.elementsList);
+const template = document.querySelector(selectors.template);
+
+
+// функция открытия 1-го попапа
 const openEditPopup = function() {
-    popupElementEdit.classList.add(selectors.openedPopup);  //добавляю селектор на изменения дисплея (на флекс)
+    popupElementEdit.classList.add(selectors.openedPopup);  //добавляю селектор на изменения дисплея
     nameInput.value = profileTitle.textContent;
     jobInput.value = profileSubtitle.textContent;
 };
@@ -58,71 +84,98 @@ popupCloseButtonElementEdit.addEventListener('click', closeEditPopup);
 formElementEdit.addEventListener('submit', formSubmitHandler);
 
 // функция открытия 2-го попапа
-const popupElementAdd = document.querySelector(selectors.popupAdd);  // выбираю 2-й попап 
-
-popupAddOpenButtonElement.addEventListener('click', function() {
+const openAddPopup = function() {
     popupElementAdd.classList.add(selectors.openedPopup);
-});
-// const openAddPopup = function() {
-//     popupElementAdd.classList.add(selectors.openedPopup);
-// }
+    pictureNameInput.value = '';
+    pictureInput.value = '';
+}
 
-// // функция закрытия 2-го попапа
-const popupCloseButtonElementAdd = popupElementAdd.querySelector(selectors.popupClose); // выбираю кнопку закрытия попапа
-
-popupCloseButtonElementAdd.addEventListener('click', function() {
+// функция закрытия 2-го попапа
+const closeAddPopup = function() {
     popupElementAdd.classList.remove(selectors.openedPopup);
-});
-// const closeAddPopup = function() {
-//     popupElementAdd.classList.remove(selectors.openedPopup);
-// };
+};
 
+// слушатели
+popupAddOpenButtonElement.addEventListener('click', openAddPopup);
+popupCloseButtonElementAdd.addEventListener('click', closeAddPopup);
 
-// логика лайков:
-// let elementsItem = document.querySelectorAll('.elements__item');
-// elementsItem.querySelector('.element__like').addEventListener('click', function (evt) {
-//     evt.target.classList.toggle('element__like_active');
-// });
+// функция добавления карточек с фото
+function createCard (item) {
+        const card = template.content.querySelector(selectors.elementsItem).cloneNode(true);
 
+        card.querySelector(selectors.elementPhoto).src = item.link;
+        card.querySelector(selectors.elementPhoto).alt = item.name;
+        card.querySelector(selectors.elementPhotoTitle).textContent = item.name;
+
+        card.querySelector(selectors.buttonLike).addEventListener('click', function(evt) {
+            evt.target.classList.toggle(selectors.buttonLikeActive)
+        });
+        card.querySelector(selectors.buttonRemove).addEventListener('click', function(evt) {
+            evt.target.parentNode.remove();
+        });
+
+        card.querySelector(selectors.elementPhoto).addEventListener('click', openPhotoFullSize)
+
+        elementsList.prepend(card);
+    };
+
+// функция открытия фото на всю ширину
+function openPhotoFullSize(evt) {
+    const cardItem = evt.target.parentNode;
+    const photoTitle = cardItem.querySelector(selectors.elementPhotoTitle);
+    const linkPhoto = cardItem.querySelector(selectors.elementPhoto);
+        
+    photoFullSize.classList.add(selectors.photoFullSizeOpened);
+    photoFullSizeLink.src = linkPhoto.src;
+    photoFullSizeTitle.textContent = photoTitle.textContent;
+}
+
+// функция закрытия фото
+function closePhotoFullSize() {
+    photoFullSize.classList.remove(selectors.photoFullSizeOpened);
+}
+
+photoCloseButton.addEventListener('click', closePhotoFullSize);
+
+function addEventListener() {
+    popupElementAdd.addEventListener('submit', function(evt) {
+    evt.preventDefault();
+    // cards.unshift({name: pictureNameInput.value, link: pictureInput.value});
+    createCard({name: pictureNameInput.value, link: pictureInput.value});
+    closeAddPopup();
+    })
+}
 
 let cards = [
-    {
-        name: 'Гаэта',
-        link: './images/gaeta.jpg'
-    },
-    {
-        name: 'Лос-Гигантес',
-        link: './images/losGigantes.jpg'
-    },
-    {
-        name: 'Миттенвальд',
-        link: './images/mittenwald.jpg'
-    },
-    {
-        name: 'Барселона',
-        link: './images/barcelona.jpg'
+        {
+        name: 'Бад-Гойзерн',
+        link: './images/badGoisern.jpg'
     },
     {
         name: 'Квай',
         link: './images/asia.jpg'
     },
     {
-        name: 'Бад-Гойзерн',
-        link: './images/badGoisern.jpg'
+        name: 'Барселона',
+        link: './images/barcelona.jpg'
     },
-]
+    {
+        name: 'Миттенвальд',
+        link: './images/mittenwald.jpg'
+    },
+    {
+        name: 'Лос-Гигантес',
+        link: './images/losGigantes.jpg'
+    },
+    {
+        name: 'Гаэта',
+        link: './images/gaeta.jpg'
+    },
+];
 
-// if('content' in document.createElement(selectors.template)) {
-    const elementsList = document.querySelector(selectors.elementsList)
-    const template = document.querySelector(selectors.template)
+function createInitialCards() {
+    cards.forEach(createCard);
+};
 
-    cards.forEach((info) => {
-        const card = template.content.cloneNode(true);
-
-        card.querySelector('img').src = info.link;
-        card.querySelector('img').alt = info.name;
-        card.querySelector('h2').textContent = info.name;
-
-        elementsList.appendChild(card)
-    })
-// }
+addEventListener();
+createInitialCards();
