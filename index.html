@@ -55,13 +55,13 @@
                 <form action="./scripts/index.js" name="ProfileEditingForm" class="popup__content popup__content_template_2">
                     <h2 class="popup__content-title">Новое место</h2>
                     <label for="name">
-                        <input type="text" name="NameForm" class="popup__item popup__item_input_pictureName" autocomplete="off" id="name" value="" placeholder='Название'>
+                        <input type="text" name="NameForm" class="popup__item popup__item_input_pictureName" autocomplete="off" id="titleSecondPopup" value="" placeholder='Название'>
                     </label>
                     <label for="job">
-                        <input type="text" name="JobForm" class="popup__item popup__item_input_picture" autocomplete="off" id="job" value="" placeholder='Ссылка на картинку'>
+                        <input type="text" name="JobForm" class="popup__item popup__item_input_picture" autocomplete="off" id="linkSecondPopup" value="" placeholder='Ссылка на картинку'>
                     </label>
                     <label for="save-button">
-                        <input type="submit" value="Создать" class="popup__save-button" id="save-button">
+                        <input type="submit" value="Создать" class="popup__save-button" id="create-button">
                     </label>
                 </form>
         </div>
@@ -71,7 +71,7 @@
     <div class="photo-fullSize">
         <div class="photo-fullSize__container">
             <button class="photo-fullSize__close" type="button"></button>
-            <img src="" alt="" class="photo-fullSize__element">
+            <img src="." alt="" class="photo-fullSize__element">
             <h3 class="photo-fullSize__title"></h3>
         </div>
     </div>
@@ -79,7 +79,7 @@
     <!-- шаблон для фото -->
     <template class="template">
         <li class="elements__item element">
-            <img class="element__photo" src="" alt="">
+            <img class="element__photo" src="." alt="">
             <button class="element__trash" type="button" aria-label="trash"></button>
             <div class="element__container">
                 <h2 class="element__title"></h2>
