@@ -136,9 +136,8 @@ function createInitialCards() {
 function addPhoto(evt) {
     evt.preventDefault();
 
-    cards.unshift({name: pictureNameInput.value, link: pictureInput.value});
-    const newPhoto = createCard(cards[0]);
-    elementsList.prepend(newPhoto);
+    const newCard = createCard({name: pictureNameInput.value, link: pictureInput.value});
+    elementsList.prepend(newCard);
     closeAddPopup();
 }
 
@@ -146,14 +145,14 @@ popupElementAdd.addEventListener('submit', addPhoto);
 
 // функция открытия фото на всю ширину
 function openPhotoFullSize(evt) {
-    photoFullSize.classList.add(selectors.openedPopup);
+    openPopup(photoFullSize);
     photoFullSizeLink.src = evt.target.src;
     photoFullSizeTitle.textContent = evt.target.alt;
 }
 
 // функция закрытия фото
 function closePhotoFullSize() {
-    photoFullSize.classList.remove(selectors.openedPopup);
+    closePopup(photoFullSize);
 }
 
 photoCloseButton.addEventListener('click', closePhotoFullSize);
