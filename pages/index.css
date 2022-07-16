@@ -28,16 +28,13 @@
 @import url(../blocks/page/__footer/page__footer.css);
 @import url(../blocks/footer/__text/footer__text.css);
 
-@import url(../blocks/photo-fullSize/photo-fullSize.css);
-@import url(../blocks/photo-fullSize/__container/photo-fullSize__container.css);
-@import url(../blocks/photo-fullSize/__close/photo-fullSize__close.css);
-@import url(../blocks/photo-fullSize/__element/photo-fullSize__element.css);
-@import url(../blocks/photo-fullSize/_opened/photo-fullSize_opened.css);
-@import url(../blocks/photo-fullSize/__title/photo-fullSize__title.css);
-
 @import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/_type/popup_type_photo-FullSize.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
 @import url(../blocks/popup/__container/popup__container.css);
+@import url(../blocks/popup/__photo-fullSize-container/popup__photo-fullSize-container.css);
+@import url(../blocks/popup/__photoElement/popup__photoElement.css);
+@import url(../blocks/popup/__title/popup__title.css);
 @import url(../blocks/popup/__close/popup__close.css);
 @import url(../blocks/popup/__content/popup__content.css);
 @import url(../blocks/popup/__content-title/popup__content-title.css);

@@ -31,10 +31,10 @@
         <p class="footer__text">© 2022 Mesto Russia</p>
     </footer>
 <!-- 1-й попап -->
-    <div class="popup popup_template_1">
+    <div class="popup popup_type_editProfile">
         <div class="popup__container">
             <button class="popup__close" type="button"></button>
-                <form action="./scripts/index.js" name="ProfileEditingForm" class="popup__content popup__content_template_1">
+                <form action="./scripts/index.js" name="ProfileEditingForm" class="popup__content popup__content_type_editProfile">
                     <h2 class="popup__content-title">Редактировать профиль</h2>
                     <label for="name">
                         <input type="text" name="NameForm" class="popup__item popup__item_input_name" autocomplete="off" id="name" value="">
@@ -49,10 +49,10 @@
         </div>
     </div>
 <!-- 2-й попап -->
-    <div class="popup popup_template_2">
+    <div class="popup popup_type_addPicture">
         <div class="popup__container">
             <button class="popup__close" type="button"></button>
-                <form action="./scripts/index.js" name="ProfileEditingForm" class="popup__content popup__content_template_2">
+                <form action="./scripts/index.js" name="ProfileEditingForm" class="popup__content popup__content_type_addPicture">
                     <h2 class="popup__content-title">Новое место</h2>
                     <label for="name">
                         <input type="text" name="NameForm" class="popup__item popup__item_input_pictureName" autocomplete="off" id="titleSecondPopup" value="" placeholder='Название'>
@@ -68,11 +68,11 @@
     </div>
 
     <!-- фото в полный размер -->
-    <div class="photo-fullSize">
-        <div class="photo-fullSize__container">
-            <button class="photo-fullSize__close" type="button"></button>
-            <img src="." alt="" class="photo-fullSize__element">
-            <h3 class="photo-fullSize__title"></h3>
+    <div class="popup popup_type_photo-FullSize">
+        <div class="popup__photo-fullSize-container">
+            <button class="popup__close" type="button"></button>
+            <img src="." alt="" class="popup__photoElement">
+            <h3 class="popup__title"></h3>
         </div>
     </div>
     
@@ -87,6 +87,7 @@
             </div>
         </li>
     </template>
+    <script src="./scripts/cards.js"></script>
     <script src="./scripts/index.js"></script>
 </body>
 </html>
