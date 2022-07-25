@@ -66,6 +66,15 @@ const closePopup = function(popup) {
     popup.classList.remove(selectors.openedPopup);
 }
 
+// общая функция закрытия попапа при клике на оверлей
+const closePopupByOverlay = function(evt, popup) {
+    if (evt.target !== evt.currentTarget) {
+        return;
+    }
+
+    closePopup(popup);
+}
+
 // функция открытия 1-го попапа
 const openEditPopup = function() {
     nameInput.value = profileTitle.textContent;
@@ -77,6 +86,11 @@ const openEditPopup = function() {
 const closeEditPopup = function() {
     closePopup(popupElementEdit);  //убараю селектор на изменение дисплея
 };
+
+// функция закрытия 1-го попапа при клике по оверлею
+const closeEditPopupByOverlay = function(evt) {
+    closePopupByOverlay(evt, popupElementEdit);
+}
 
 // функция сохранения данных 1-го попапа
 function formSubmitHandler (evt) {
@@ -97,12 +111,19 @@ const closeAddPopup = function() {
     closePopup(popupElementAdd);
 }
 
+// функция закрытия 2-го попапа при клике по оверлею
+const closeAddPopupByOverlay = function(evt) {
+    closePopupByOverlay(evt, popupElementAdd);
+}
+
 // слушатели
 popupEditOpenButtonElement.addEventListener('click', openEditPopup);
 popupCloseButtonElementEdit.addEventListener('click', closeEditPopup);
+popupElementEdit.addEventListener('click', closeEditPopupByOverlay);
 formElementEdit.addEventListener('submit', formSubmitHandler);
 popupAddOpenButtonElement.addEventListener('click', openAddPopup);
 popupCloseButtonElementAdd.addEventListener('click', closeAddPopup);
+popupElementAdd.addEventListener('click', closeAddPopupByOverlay);
 
 // функция создания новой карточки
 function createCard (item) {
@@ -155,6 +176,12 @@ function closePhotoFullSize() {
     closePopup(photoFullSize);
 }
 
+// функция закрытия фото при клике по оферлею
+const closePhotoFullSizeByOverlay = function(evt) {
+    closePopupByOverlay(evt, photoFullSize)
+}
+
 photoCloseButton.addEventListener('click', closePhotoFullSize);
+photoFullSize.addEventListener('click', closePhotoFullSizeByOverlay);
 
 createInitialCards();
