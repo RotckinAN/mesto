@@ -1,3 +1,4 @@
 .popup__photo-fullSize-container {
     position: relative;
+    cursor: default;
 }

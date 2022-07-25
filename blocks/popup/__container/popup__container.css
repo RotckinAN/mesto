@@ -6,6 +6,7 @@
     position: relative;
     padding: 34px 36px 37px 36px;
     box-sizing: border-box;
+    cursor: default;
 }
 
 @media screen and (max-width: 600px) {

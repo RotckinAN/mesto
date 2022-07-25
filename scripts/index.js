@@ -59,11 +59,22 @@ const template = document.querySelector(selectors.template);
 // общая функция открытия попапа
 const openPopup = function(popup) {
     popup.classList.add(selectors.openedPopup);
+    document.addEventListener('keydown', keyHandler);
 }
 
 // общая функция закрытия попапа
 const closePopup = function(popup) {
     popup.classList.remove(selectors.openedPopup);
+    document.removeEventListener('keydown', keyHandler);
+}
+
+// общая функция закрытия попапа при нажатии на ESC
+const keyHandler = function(evt) {
+    if (evt.key === 'Escape') {
+        const popupOpen = document.querySelector(`.${selectors.openedPopup}`);
+        popupOpen.classList.remove(selectors.openedPopup);
+        document.removeEventListener('keydown', keyHandler);
+    }
 }
 
 // общая функция закрытия попапа при клике на оверлей
@@ -71,7 +82,6 @@ const closePopupByOverlay = function(evt, popup) {
     if (evt.target !== evt.currentTarget) {
         return;
     }
-
     closePopup(popup);
 }
 
