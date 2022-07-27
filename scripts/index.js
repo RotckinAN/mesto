@@ -85,11 +85,20 @@ const closePopupByOverlay = function(evt, popup) {
     closePopup(popup);
 }
 
+// функция запуска кнопки при открытии 1-го попапа
+function buttonActiv (config) {
+    const button = document.querySelector(config.button);
+    button.removeAttribute('disabled');
+    button.classList.remove(config.buttonInvalid);
+}
+
 // функция открытия 1-го попапа
 const openEditPopup = function() {
     nameInput.value = profileTitle.textContent;
     jobInput.value = profileSubtitle.textContent;
     openPopup(popupElementEdit);
+    noErrorMessage(formForEditProfile);
+    buttonActiv(formForEditProfile);
 }
 
 // функция закрытия 1-го попапа
@@ -114,6 +123,7 @@ function formSubmitHandler (evt) {
 const openAddPopup = function() {
     formElemenAdd.reset();
     openPopup(popupElementAdd);
+    noErrorMessage(formForAddProfile);
 }
 
 // функция закрытия 2-го попапа

@@ -35,17 +35,19 @@
     <div class="popup popup_type_editProfile">
         <div class="popup__container">
             <button class="popup__close" type="button"></button>
-                <form action="./scripts/index.js" name="ProfileEditingForm" class="popup__content popup__content_type_editProfile">
+                <form action="./scripts/index.js" name="ProfileEditingForm" class="popup__content popup__content_type_editProfile" novalidate>
                     <h2 class="popup__content-title">Редактировать профиль</h2>
-                    <label for="name">
-                        <input type="text" name="NameForm" class="popup__item popup__item_input_name" autocomplete="off" id="name" value="">
+                    <label for="inputName">
+                        <input type="text" name="nameForm" class="popup__item popup__item_input_name" autocomplete="off" id="inputName" value="" minlength="2" maxlength="40" required>
+                        <span class="popup__input-error inputName-error"></span>
                     </label>
-                    <label for="job">
-                        <input type="text" name="JobForm" class="popup__item popup__item_input_job" autocomplete="off" id="job" value="">
+                    <label for="inputJob">
+                        <input type="text" name="jobForm" class="popup__item popup__item_input_job" autocomplete="off" id="inputJob" value="" minlength="2" maxlength="200" required>
+                        <span class="popup__input-error inputJob-error"></span>
                     </label>
-                    <label for="save-button">
-                        <input type="submit" value="Сохранить" class="popup__save-button" id="save-button">
-                    </label>
+                    <!-- <label for="save-button"> -->
+                    <button type="submit" value="Сохранить" class="popup__save-button popup__save-button_invalid" id="save-button" disabled >Сохранить</button>
+                    <!-- </label> -->
                 </form>
         </div>
     </div>
@@ -54,17 +56,19 @@
     <div class="popup popup_type_addPicture">
         <div class="popup__container">
             <button class="popup__close" type="button"></button>
-                <form action="./scripts/index.js" name="ProfileEditingForm" class="popup__content popup__content_type_addPicture">
+                <form action="./scripts/index.js" name="ProfileEditingForm" class="popup__content popup__content_type_addPicture" novalidate>
                     <h2 class="popup__content-title">Новое место</h2>
-                    <label for="name">
-                        <input type="text" name="NameForm" class="popup__item popup__item_input_pictureName" autocomplete="off" id="titleSecondPopup" value="" placeholder='Название'>
+                    <label for="inputPicturePopup">
+                        <input type="text" name="pictureTitle" class="popup__item popup__item_input_pictureName" autocomplete="off" id="inputPicturePopup" value="" placeholder='Название' minlength="2" maxlength="30" required>
+                        <span class="popup__input-error inputPicturePopup-error"></span>
                     </label>
-                    <label for="job">
-                        <input type="text" name="JobForm" class="popup__item popup__item_input_picture" autocomplete="off" id="linkSecondPopup" value="" placeholder='Ссылка на картинку'>
+                    <label for="inputPictureLink">
+                        <input type="url" name="pictureLink" class="popup__item popup__item_input_picture" autocomplete="off" id="inputPictureLink" value="" placeholder='Ссылка на картинку' required>
+                        <span class="popup__input-error inputPictureLink-error"></span>
                     </label>
-                    <label for="save-button">
-                        <input type="submit" value="Создать" class="popup__save-button" id="create-button">
-                    </label>
+                    <!-- <label for="save-button"> -->
+                    <button type="submit" value="Создать" class="popup__save-button popup__save-button_invalid" id="create-button" disabled>Создать</button>
+                    <!-- </label> -->
                 </form>
         </div>
     </div>
@@ -91,5 +95,6 @@
     </template>
     <script src="./scripts/cards.js"></script>
     <script src="./scripts/index.js"></script>
+    <script src="./scripts/validate.js"></script>
 </body>
 </html>
