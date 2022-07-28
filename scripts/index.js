@@ -26,7 +26,7 @@ const selectors = {
     photoFullSize: '.popup_type_photo-FullSize',
     photoFullSizeTitle: '.popup__title',
     photoFullSizeElement: '.popup__photoElement'
-};
+}
 
 // объявления переменных 
 const popupEditOpenButtonElement = document.querySelector(selectors.editButton);  // выбираю кнопку редактирования профия
@@ -54,23 +54,20 @@ const template = document.querySelector(selectors.template);
 // общая функция открытия попапа
 const openPopup = function(popup) {
     popup.classList.add(selectors.openedPopup);
-    document.addEventListener('keydown', function (evt) {
-        keyHandler(evt, popup);
-    });
+    document.addEventListener('keydown', handleEscape);
 }
 
 // общая функция закрытия попапа
 const closePopup = function(popup) {
     popup.classList.remove(selectors.openedPopup);
-    document.removeEventListener('keydown', function (evt) {
-        keyHandler(evt, popup)
-    });
+    document.removeEventListener('keydown', handleEscape);
 }
 
 // общая функция закрытия попапа при нажатии на ESC
-const keyHandler = function(evt, popup) {
+const handleEscape = function(evt) {
     if (evt.key === 'Escape') {
-        closePopup(popup)
+        const openedPopup = document.querySelector(`.${selectors.openedPopup}`);
+        closePopup(openedPopup);
     }
 }
 
@@ -147,7 +144,9 @@ function createCard (item) {
         card.remove();
     });
 
-    photo.addEventListener('click', openPhotoFullSize) //открытие в п-й размер
+    photo.addEventListener('click', function() {
+        openPhotoFullSize(photo);
+    })
 
     return card;
 }
@@ -171,11 +170,11 @@ function addPhoto(evt) {
 popupElementAdd.addEventListener('submit', addPhoto);
 
 // функция открытия фото на всю ширину
-function openPhotoFullSize(evt) {
+function openPhotoFullSize(item) {
     openPopup(photoFullSize);
-    photoFullSizeLink.src = evt.target.src;
-    photoFullSizeLink.alt = evt.target.alt;
-    photoFullSizeTitle.textContent = evt.target.alt;
+    photoFullSizeLink.src = item.src;
+    photoFullSizeLink.alt = item.alt;
+    photoFullSizeTitle.textContent = item.alt;
 }
 
 createInitialCards();
