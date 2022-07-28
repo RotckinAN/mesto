@@ -1,15 +1,5 @@
-const formForEditProfile = {
-    form: '.popup__content_type_editProfile',
-    inputErrorActive: 'popup__input-error_active',
-    popupError: 'popup__item_type_error',
-    button: '.popup__save-button',
-    buttonInvalid: 'popup__save-button_invalid',
-    inputError: '.popup__input-error',
-    popupItem: '.popup__item'
-}
-
-const formForAddProfile = {
-    form: '.popup__content_type_addPicture',
+const popupSelectors = {
+    form: '.popup__content',
     inputErrorActive: 'popup__input-error_active',
     popupError: 'popup__item_type_error',
     button: '.popup__save-button',
@@ -19,9 +9,11 @@ const formForAddProfile = {
 }
 
 function enableValidation(config) {
-    const form = document.querySelector(config.form);
-    form.addEventListener('input', function(evt) {
-        handleFormInput(evt, config);
+    const formList = Array.from(document.querySelectorAll(config.form));
+    formList.forEach(function(form) {
+        form.addEventListener('input', function (evt) {
+            handleFormInput(evt, config);
+        })
     });
 }
 
@@ -64,21 +56,22 @@ function setSubmitButtonState(form, config) {
 }
 
 // функция открытия попапа без ошибки
-const noErrorMessage = function(config){
-    const form = document.querySelector(config.form);
-    const input = form.querySelectorAll(config.popupItem);
-    
-    const inputArray = Array.from(input);
-    inputArray.forEach(function(formInput) {
-        formInput.classList.remove(config.popupError);
-    })
+const hideErrorMessages = function(config) {
+    const formList = Array.from(document.querySelectorAll(config.form));
 
-    const formError = form.querySelectorAll(config.inputError);
-    const formErrorArray = Array.from(formError);
-    formErrorArray.forEach(function(error) {
-        error.classList.remove(config.inputErrorActive);
-    })
-}
+    formList.forEach(function(form) {
+        const input = form.querySelectorAll(config.popupItem);
+        const inputArray = Array.from(input);
+        inputArray.forEach(function(formInput) {
+            formInput.classList.remove(config.popupError);
+        })
 
-enableValidation(formForEditProfile);
-enableValidation(formForAddProfile);
+        const formError = form.querySelectorAll(config.inputError);
+        const formErrorArray = Array.from(formError);
+        formErrorArray.forEach(function(error) {
+            error.classList.remove(config.inputErrorActive);
+        })
+    })
+    }
+
+enableValidation(popupSelectors)

@@ -1,7 +1,7 @@
 // селекторы
 const selectors = {
     popup: '.popup',
-    popupClose: '.popup__close',
+    popupClose: 'popup__close',
     editButton: '.profile__edit-button',
     popupContentEdit: '.popup__content_type_editProfile',
     popupContentAdd: '.popup__content_type_addPicture',
@@ -29,7 +29,6 @@ const selectors = {
 };
 
 // объявления переменных 
-const popupElement = document.querySelector(selectors.popup); // выбираю весь попап
 const popupEditOpenButtonElement = document.querySelector(selectors.editButton);  // выбираю кнопку редактирования профия
 const popupAddOpenButtonElement = document.querySelector(selectors.addButton);  // выбираю кнопку добавления карточек
 
@@ -40,16 +39,12 @@ const profileTitle = document.querySelector(selectors.profTitle);  // выбир
 const profileSubtitle = document.querySelector(selectors.profSubtitle);  //выбираю подзаголовок на странице (работа)
 
 const popupElementEdit = document.querySelector(selectors.popupEdit);  // выбираю 1-й попап 
-const popupCloseButtonElementEdit = popupElementEdit.querySelector(selectors.popupClose);  // выбираю кнопку закрытия попапа
-
 const popupElementAdd = document.querySelector(selectors.popupAdd);  // выбираю 2-й попап
-const formElemenAdd = popupElementAdd.querySelector(selectors.popupContentAdd); // выбираю форму 2-го попапа
-const popupCloseButtonElementAdd = popupElementAdd.querySelector(selectors.popupClose); // выбираю кнопку закрытия попапа
+const formElementAdd = popupElementAdd.querySelector(selectors.popupContentAdd); // выбираю форму 2-го попапа
 const pictureNameInput = popupElementAdd.querySelector(selectors.itemPictureName);  // выбираю инпут в попапе (имя картинки)
 const pictureInput = popupElementAdd.querySelector(selectors.inputPicture);  // выбираю инпут в попапе (ссылка на картинку)
 
 const photoFullSize = document.querySelector(selectors.photoFullSize);
-const photoCloseButton = photoFullSize.querySelector(selectors.popupClose);
 const photoFullSizeTitle = photoFullSize.querySelector(selectors.photoFullSizeTitle);
 const photoFullSizeLink = photoFullSize.querySelector(selectors.photoFullSizeElement);
 
@@ -59,37 +54,38 @@ const template = document.querySelector(selectors.template);
 // общая функция открытия попапа
 const openPopup = function(popup) {
     popup.classList.add(selectors.openedPopup);
-    document.addEventListener('keydown', keyHandler);
+    document.addEventListener('keydown', function (evt) {
+        keyHandler(evt, popup);
+    });
 }
 
 // общая функция закрытия попапа
 const closePopup = function(popup) {
     popup.classList.remove(selectors.openedPopup);
-    document.removeEventListener('keydown', keyHandler);
+    document.removeEventListener('keydown', function (evt) {
+        keyHandler(evt, popup)
+    });
 }
 
 // общая функция закрытия попапа при нажатии на ESC
-const keyHandler = function(evt) {
+const keyHandler = function(evt, popup) {
     if (evt.key === 'Escape') {
-        const popupOpen = document.querySelector(`.${selectors.openedPopup}`);
-        popupOpen.classList.remove(selectors.openedPopup);
-        document.removeEventListener('keydown', keyHandler);
+        closePopup(popup)
     }
-}
-
-// общая функция закрытия попапа при клике на оверлей
-const closePopupByOverlay = function(evt, popup) {
-    if (evt.target !== evt.currentTarget) {
-        return;
-    }
-    closePopup(popup);
 }
 
 // функция запуска кнопки при открытии 1-го попапа
-function buttonActiv (config) {
-    const button = document.querySelector(config.button);
+function activateButton (config) {
+    const button = popupElementEdit.querySelector(config.button);
     button.removeAttribute('disabled');
     button.classList.remove(config.buttonInvalid);
+}
+
+// функция отключения кнопки при открытии 2-го попапа
+function deactivateButton (config) {
+    const button = popupElementAdd.querySelector(config.button);
+    button.setAttribute('disabled', true);
+    button.classList.add(config.buttonInvalid);
 }
 
 // функция открытия 1-го попапа
@@ -97,53 +93,43 @@ const openEditPopup = function() {
     nameInput.value = profileTitle.textContent;
     jobInput.value = profileSubtitle.textContent;
     openPopup(popupElementEdit);
-    noErrorMessage(formForEditProfile);
-    buttonActiv(formForEditProfile);
-}
-
-// функция закрытия 1-го попапа
-const closeEditPopup = function() {
-    closePopup(popupElementEdit);  //убараю селектор на изменение дисплея
-};
-
-// функция закрытия 1-го попапа при клике по оверлею
-const closeEditPopupByOverlay = function(evt) {
-    closePopupByOverlay(evt, popupElementEdit);
+    hideErrorMessages(popupSelectors);
+    activateButton(popupSelectors);
 }
 
 // функция сохранения данных 1-го попапа
-function formSubmitHandler (evt) {
+function handleProfileFormSubmit (evt) {
     evt.preventDefault();
     profileTitle.textContent = nameInput.value;
     profileSubtitle.textContent = jobInput.value;
-    closeEditPopup();
-};
+    closePopup(popupElementEdit);
+}
 
 // функция открытия 2-го попапа
 const openAddPopup = function() {
-    formElemenAdd.reset();
+    formElementAdd.reset();
     openPopup(popupElementAdd);
-    noErrorMessage(formForAddProfile);
+    hideErrorMessages(popupSelectors);
+    deactivateButton(popupSelectors)
 }
 
-// функция закрытия 2-го попапа
-const closeAddPopup = function() {
-    closePopup(popupElementAdd);
-}
-
-// функция закрытия 2-го попапа при клике по оверлею
-const closeAddPopupByOverlay = function(evt) {
-    closePopupByOverlay(evt, popupElementAdd);
-}
+// функция слушателей событий закрытия попапов при клике на кнопку или по оверлею
+const popups = document.querySelectorAll(selectors.popup)
+popups.forEach(function (popup) {
+    popup.addEventListener('mousedown', function(evt) {
+        if (evt.target.classList.contains(selectors.openedPopup)) {
+            closePopup(popup)
+        }
+        if (evt.target.classList.contains(selectors.popupClose)) {
+            closePopup(popup)
+        }
+    })
+})
 
 // слушатели
 popupEditOpenButtonElement.addEventListener('click', openEditPopup);
-popupCloseButtonElementEdit.addEventListener('click', closeEditPopup);
-popupElementEdit.addEventListener('click', closeEditPopupByOverlay);
-formElementEdit.addEventListener('submit', formSubmitHandler);
+formElementEdit.addEventListener('submit', handleProfileFormSubmit);
 popupAddOpenButtonElement.addEventListener('click', openAddPopup);
-popupCloseButtonElementAdd.addEventListener('click', closeAddPopup);
-popupElementAdd.addEventListener('click', closeAddPopupByOverlay);
 
 // функция создания новой карточки
 function createCard (item) {
@@ -157,21 +143,21 @@ function createCard (item) {
     card.querySelector(selectors.buttonLike).addEventListener('click', function(evt) { //устанвка лайков
         evt.target.classList.toggle(selectors.buttonLikeActive)
     });
-    card.querySelector(selectors.buttonRemove).addEventListener('click', function(evt) { //удаление карточки
-        evt.target.closest(selectors.elementsItem).remove();
+    card.querySelector(selectors.buttonRemove).addEventListener('click', function() { //удаление карточки
+        card.remove();
     });
 
-    card.querySelector(selectors.elementPhoto).addEventListener('click', openPhotoFullSize) //открытие в п-й размер
+    photo.addEventListener('click', openPhotoFullSize) //открытие в п-й размер
 
     return card;
-};
+}
 
 //функция создания первоначальных карточек
 function createInitialCards() {
     cards.forEach(function(card) {
         elementsList.prepend(createCard(card));
     });
-};
+}
 
 //функция добавления новых карточек
 function addPhoto(evt) {
@@ -179,7 +165,7 @@ function addPhoto(evt) {
 
     const newCard = createCard({name: pictureNameInput.value, link: pictureInput.value});
     elementsList.prepend(newCard);
-    closeAddPopup();
+    closePopup(popupElementAdd);
 }
 
 popupElementAdd.addEventListener('submit', addPhoto);
@@ -188,20 +174,8 @@ popupElementAdd.addEventListener('submit', addPhoto);
 function openPhotoFullSize(evt) {
     openPopup(photoFullSize);
     photoFullSizeLink.src = evt.target.src;
+    photoFullSizeLink.alt = evt.target.alt;
     photoFullSizeTitle.textContent = evt.target.alt;
 }
-
-// функция закрытия фото
-function closePhotoFullSize() {
-    closePopup(photoFullSize);
-}
-
-// функция закрытия фото при клике по оферлею
-const closePhotoFullSizeByOverlay = function(evt) {
-    closePopupByOverlay(evt, photoFullSize)
-}
-
-photoCloseButton.addEventListener('click', closePhotoFullSize);
-photoFullSize.addEventListener('click', closePhotoFullSizeByOverlay);
 
 createInitialCards();
