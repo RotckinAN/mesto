@@ -64,7 +64,7 @@
                         <input type="url" name="pictureLink" class="popup__item popup__item_input_picture" autocomplete="off" id="inputPictureLink" value="" placeholder='Ссылка на картинку' required>
                         <span class="popup__input-error inputPictureLink-error"></span>
                     </label>
-                    <button type="submit" value="Создать" class="popup__save-button popup__save-button_invalid" id="create-button" disabled>Создать</button>
+                    <button type="submit" value="Создать" class="popup__save-button popup__save-button_invalid" id="create-button">Создать</button>
                 </form>
         </div>
     </div>
@@ -89,8 +89,11 @@
             </div>
         </li>
     </template>
-    <script src="./scripts/cards.js"></script>
-    <script src="./scripts/index.js"></script>
-    <script src="./scripts/validate.js"></script>
+<!--    <script src="./scripts/cards.js"></script>-->
+
+    <script type="module" src="./scripts/index.js"></script>
+    <script type="module" src=".1/scripts/Card.js"></script>
+    <!--    <script type="module" src="./scripts/FormValidator.js"></script>-->
+<!--    <script src="./scripts/validate.js"></script>-->
 </body>
 </html>
