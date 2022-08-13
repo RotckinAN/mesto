@@ -1,4 +1,5 @@
 import { Card } from "./Card.js";
+import { FormValidator } from './FormValidator.js';
 
 // массив с данными для фото-карточекы
 const cards = [
@@ -56,6 +57,13 @@ export const selectors = {
   photoFullSize: ".popup_type_photo-FullSize",
   photoFullSizeTitle: ".popup__title",
   photoFullSizeElement: ".popup__photoElement",
+  form: '.popup__content',
+  inputErrorActive: 'popup__input-error_active',
+  popupError: 'popup__item_type_error',
+  button: '.popup__save-button',
+  buttonInvalid: 'popup__save-button_invalid',
+  inputError: '.popup__input-error',
+  popupItem: '.popup__item'
 };
 
 
@@ -80,7 +88,6 @@ export const photoFullSizeTitle = photoFullSize.querySelector(selectors.photoFul
 export const photoFullSizeLink = photoFullSize.querySelector(selectors.photoFullSizeElement);
 
 const elementsList = document.querySelector(selectors.elementsList);
-// const template = document.querySelector(selectors.template);
 
 // общая функция открытия попапа
 export const openPopup = function (popup) {
@@ -102,27 +109,27 @@ const handleEscape = function (evt) {
   }
 };
 
-// // функция запуска кнопки при открытии 1-го попапа
-// function activateButton(config) {
-//   const button = popupElementEdit.querySelector(config.button);
-//   button.removeAttribute("disabled");
-//   button.classList.remove(config.buttonInvalid);
-// }
-//
-// // функция отключения кнопки при открытии 2-го попапа
-// function deactivateButton(config) {
-//   const button = popupElementAdd.querySelector(config.button);
-//   button.setAttribute("disabled", true);
-//   button.classList.add(config.buttonInvalid);
-// }
+// функция запуска кнопки при открытии 1-го попапа
+function activateButton(config) {
+  const button = popupElementEdit.querySelector(config.button);
+  button.removeAttribute("disabled");
+  button.classList.remove(config.buttonInvalid);
+}
+
+// функция отключения кнопки при открытии 2-го попапа
+function deactivateButton(config) {
+  const button = popupElementAdd.querySelector(config.button);
+  button.setAttribute("disabled", true);
+  button.classList.add(config.buttonInvalid);
+}
 
 // функция открытия 1-го попапа
 const openEditPopup = function () {
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
   openPopup(popupElementEdit);
-  // hideErrorMessages(popupSelectors);
-  // activateButton(popupSelectors);
+  validationForm();
+  activateButton(selectors);
 };
 
 // функция сохранения данных 1-го попапа
@@ -137,8 +144,8 @@ function handleProfileFormSubmit(evt) {
 const openAddPopup = function () {
   formElementAdd.reset();
   openPopup(popupElementAdd);
-  // hideErrorMessages(popupSelectors);
-  // deactivateButton(popupSelectors);
+  validationForm();
+  deactivateButton(selectors);
 };
 
 // функция слушателей событий закрытия попапов при клике на кнопку или по оверлею
@@ -182,4 +189,14 @@ function addPhoto(evt) {
 
 popupElementAdd.addEventListener('submit', addPhoto);
 
-createInitialCards();
+// валидация форм
+function validationForm() {
+  const formList = Array.from(document.querySelectorAll(selectors.form));
+  formList.forEach((formValid) => {
+    const formValidity = new FormValidator(selectors, formValid);
+    formValidity.enableValidation();
+    formValidity.hideErrorMessages()
+  })
+}
+
+createInitialCards()
