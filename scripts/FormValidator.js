@@ -1,13 +1,12 @@
 export class FormValidator {
-    constructor(validationSelectors, formType) {
-        this._form = validationSelectors.form;
+    constructor(validationSelectors, formType, submitButton) {
         this._inputErrorActive = validationSelectors.inputErrorActive;
         this._popupError = validationSelectors.popupError;
-        this._button = validationSelectors.button;
         this._buttonInvalid = validationSelectors.buttonInvalid;
         this._inputError = validationSelectors.inputError;
         this._popupItem = validationSelectors.popupItem;
-        this._formType = formType
+        this._formType = formType;
+        this._submitButton = submitButton
     }
 
     _handleFormInput = (evt) => {
@@ -33,33 +32,26 @@ export class FormValidator {
     }
 
     _setSubmitButtonState = (form) => {
-        const button = form.querySelector(this._button);
         const isValid = form.checkValidity();
 
         if(isValid) {
-            button.removeAttribute('disabled');
-            button.classList.remove(this._buttonInvalid)
+            this._submitButton.removeAttribute('disabled');
+            this._submitButton.classList.remove(this._buttonInvalid)
         } else {
-            button.setAttribute('disabled', true);
-            button.classList.add(this._buttonInvalid)
+            this._submitButton.setAttribute('disabled', true);
+            this._submitButton.classList.add(this._buttonInvalid)
         }
     }
 
     hideErrorMessages = () => {
-        const formList = Array.from(document.querySelectorAll(this._form));
+        const inputArray = Array.from(this._formType.querySelectorAll(this._popupItem));
+        inputArray.forEach((formInput) => {
+            formInput.classList.remove(this._popupError)
+        });
 
-        formList.forEach((form) => {
-            const input = form.querySelectorAll(this._popupItem);
-            const inputArray = Array.from(input);
-            inputArray.forEach((formInput) => {
-                formInput.classList.remove(this._popupError)
-            })
-
-            const formError = form.querySelectorAll(this._inputError);
-            const formErrorArray = Array.from(formError);
-            formErrorArray.forEach((error) => {
-                error.classList.remove(this._inputErrorActive)
-            })
+        const formErrorArray = Array.from(this._formType.querySelectorAll(this._inputError));
+        formErrorArray.forEach((error) => {
+            error.classList.remove(this._inputErrorActive)
         })
     }
 

@@ -35,14 +35,14 @@
     <div class="popup popup_type_editProfile">
         <div class="popup__container">
             <button class="popup__close" type="button"></button>
-                <form action="./scripts/index.js" name="ProfileEditingForm" class="popup__content popup__content_type_editProfile" novalidate>
+                <form action="./scripts/index.js" name="profileEditingForm" class="popup__content popup__content_type_editProfile" novalidate>
                     <h2 class="popup__content-title">Редактировать профиль</h2>
                     <label for="inputName">
-                        <input type="text" name="nameForm" class="popup__item popup__item_input_name" autocomplete="off" id="inputName" value="" minlength="2" maxlength="40" required>
+                        <input type="text" name="nameForm" class="popup__item popup__item_input_name" autocomplete="off" id="inputName" value="" placeholder="Имя" minlength="2" maxlength="40" required>
                         <span class="popup__input-error inputName-error"></span>
                     </label>
                     <label for="inputJob">
-                        <input type="text" name="jobForm" class="popup__item popup__item_input_job" autocomplete="off" id="inputJob" value="" minlength="2" maxlength="200" required>
+                        <input type="text" name="jobForm" class="popup__item popup__item_input_job" autocomplete="off" id="inputJob" value="" placeholder="О себе" minlength="2" maxlength="200" required>
                         <span class="popup__input-error inputJob-error"></span>
                     </label>
                     <button type="submit" value="Сохранить" class="popup__save-button popup__save-button_invalid" id="save-button" disabled >Сохранить</button>
@@ -54,7 +54,7 @@
     <div class="popup popup_type_addPicture">
         <div class="popup__container">
             <button class="popup__close" type="button"></button>
-                <form action="./scripts/index.js" name="ProfileEditingForm" class="popup__content popup__content_type_addPicture" novalidate>
+                <form action="./scripts/index.js" name="pictureAddForm" class="popup__content popup__content_type_addPicture" novalidate>
                     <h2 class="popup__content-title">Новое место</h2>
                     <label for="inputPicturePopup">
                         <input type="text" name="pictureTitle" class="popup__item popup__item_input_pictureName" autocomplete="off" id="inputPicturePopup" value="" placeholder='Название' minlength="2" maxlength="30" required>
@@ -91,7 +91,5 @@
     </template>
 
     <script type="module" src="./scripts/index.js"></script>
-    <script type="module" src="./scripts/Card.js"></script>
-    <script type="module" src="./scripts/FormValidator.js"></script>
 </body>
 </html>

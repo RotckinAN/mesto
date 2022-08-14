@@ -1,71 +1,8 @@
-import { Card } from "./Card.js";
+import { cards } from './cards.js';
+import { selectors, openPopup, closePopup } from './utils.js';
+
+import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
-
-// массив с данными для фото-карточекы
-const cards = [
-  {
-    name: "Бад-Гойзерн",
-    link: "./images/badGoisern.jpg",
-  },
-  {
-    name: "Квай",
-    link: "./images/asia.jpg",
-  },
-  {
-    name: "Барселона",
-    link: "./images/barcelona.jpg",
-  },
-  {
-    name: "Миттенвальд",
-    link: "./images/mittenwald.jpg",
-  },
-  {
-    name: "Лос-Гигантес",
-    link: "./images/losGigantes.jpg",
-  },
-  {
-    name: "Гаэта",
-    link: "./images/gaeta.jpg",
-  },
-];
-
-// селекторы
-export const selectors = {
-  popup: ".popup",
-  popupClose: "popup__close",
-  editButton: ".profile__edit-button",
-  popupContentEdit: ".popup__content_type_editProfile",
-  popupContentAdd: ".popup__content_type_addPicture",
-  itemInputName: ".popup__item_input_name",
-  itemInputJob: ".popup__item_input_job",
-  profTitle: ".profile__title",
-  profSubtitle: ".profile__subtitle",
-  openedPopup: "popup_opened",
-  addButton: ".profile__add-button",
-  popupEdit: ".popup_type_editProfile",
-  popupAdd: ".popup_type_addPicture",
-  template: ".template",
-  elementsList: ".elements__list",
-  elementsItem: ".elements__item",
-  itemPictureName: ".popup__item_input_pictureName",
-  inputPicture: ".popup__item_input_picture",
-  elementPhoto: ".element__photo",
-  elementPhotoTitle: ".element__title",
-  buttonRemove: ".element__trash",
-  buttonLike: ".element__like",
-  buttonLikeActive: "element__like_active",
-  photoFullSize: ".popup_type_photo-FullSize",
-  photoFullSizeTitle: ".popup__title",
-  photoFullSizeElement: ".popup__photoElement",
-  form: '.popup__content',
-  inputErrorActive: 'popup__input-error_active',
-  popupError: 'popup__item_type_error',
-  button: '.popup__save-button',
-  buttonInvalid: 'popup__save-button_invalid',
-  inputError: '.popup__input-error',
-  popupItem: '.popup__item'
-};
-
 
 // объявления переменных
 const popupEditOpenButtonElement = document.querySelector(selectors.editButton); // выбираю кнопку редактирования профия
@@ -83,42 +20,18 @@ const formElementAdd = popupElementAdd.querySelector(selectors.popupContentAdd);
 const pictureNameInput = popupElementAdd.querySelector(selectors.itemPictureName); // выбираю инпут в попапе (имя картинки)
 const pictureInput = popupElementAdd.querySelector(selectors.inputPicture); // выбираю инпут в попапе (ссылка на картинку)
 
-export const photoFullSize = document.querySelector(selectors.photoFullSize);
-export const photoFullSizeTitle = photoFullSize.querySelector(selectors.photoFullSizeTitle);
-export const photoFullSizeLink = photoFullSize.querySelector(selectors.photoFullSizeElement);
-
 const elementsList = document.querySelector(selectors.elementsList);
 
-// общая функция открытия попапа
-export const openPopup = function (popup) {
-  popup.classList.add(selectors.openedPopup);
-  document.addEventListener("keydown", handleEscape);
-};
-
-// общая функция закрытия попапа
-const closePopup = function (popup) {
-  popup.classList.remove(selectors.openedPopup);
-  document.removeEventListener("keydown", handleEscape);
-};
-
-// общая функция закрытия попапа при нажатии на ESC
-const handleEscape = function (evt) {
-  if (evt.key === "Escape") {
-    const openedPopup = document.querySelector(`.${selectors.openedPopup}`);
-    closePopup(openedPopup);
-  }
-};
-
-// функция запуска кнопки при открытии 1-го попапа
-function activateButton(config) {
-  const button = popupElementEdit.querySelector(config.button);
+// общая функция запуска кнопки при открытии попапа
+function activateButton(popup, config) {
+  const button = popup.querySelector(config.button);
   button.removeAttribute("disabled");
   button.classList.remove(config.buttonInvalid);
 }
 
-// функция отключения кнопки при открытии 2-го попапа
-function deactivateButton(config) {
-  const button = popupElementAdd.querySelector(config.button);
+// общая функция отключения кнопки при открытии попапа
+function deactivateButton(popup, config) {
+  const button = popup.querySelector(config.button);
   button.setAttribute("disabled", true);
   button.classList.add(config.buttonInvalid);
 }
@@ -128,9 +41,9 @@ const openEditPopup = function () {
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
   openPopup(popupElementEdit);
-  validationForm();
-  activateButton(selectors);
-};
+  formEditProfileValidity.hideErrorMessages();
+  activateButton(popupElementEdit, selectors);
+}
 
 // функция сохранения данных 1-го попапа
 function handleProfileFormSubmit(evt) {
@@ -144,9 +57,9 @@ function handleProfileFormSubmit(evt) {
 const openAddPopup = function () {
   formElementAdd.reset();
   openPopup(popupElementAdd);
-  validationForm();
-  deactivateButton(selectors);
-};
+  formAddPhotoValidity.hideErrorMessages();
+  deactivateButton(popupElementAdd, selectors);
+}
 
 // функция слушателей событий закрытия попапов при клике на кнопку или по оверлею
 const popups = document.querySelectorAll(selectors.popup);
@@ -159,7 +72,7 @@ popups.forEach(function (popup) {
       closePopup(popup);
     }
   });
-});
+})
 
 // слушатели
 popupEditOpenButtonElement.addEventListener("click", openEditPopup);
@@ -189,14 +102,14 @@ function addPhoto(evt) {
 
 popupElementAdd.addEventListener('submit', addPhoto);
 
-// валидация форм
-function validationForm() {
-  const formList = Array.from(document.querySelectorAll(selectors.form));
-  formList.forEach((formValid) => {
-    const formValidity = new FormValidator(selectors, formValid);
-    formValidity.enableValidation();
-    formValidity.hideErrorMessages()
-  })
-}
+// валидация формы редактированяи профиля
+const formEditProfileSubmitButton = formElementEdit.querySelector(selectors.button);
+const formEditProfileValidity = new FormValidator(selectors, formElementEdit, formEditProfileSubmitButton);
+formEditProfileValidity.enableValidation();
+
+// валадиция формы добавления новых фото
+const formAddPhotoSubmitButton = formElementAdd.querySelector(selectors.button);
+const formAddPhotoValidity = new FormValidator(selectors, formElementAdd, formAddPhotoSubmitButton);
+formAddPhotoValidity.enableValidation();
 
 createInitialCards()

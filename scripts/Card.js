@@ -4,7 +4,7 @@ import {
     photoFullSizeLink,
     photoFullSizeTitle,
     openPopup
-    } from './index.js';
+    } from './utils.js';
 
 export class Card {
     constructor(data, templateSelector) {
@@ -22,7 +22,8 @@ export class Card {
     }
 
     _removePhotoCard = () => {
-        this._element.remove()
+        this._element.remove();
+        this._element = ''
     }
 
     _openPhotoFullSize = (item) => {
