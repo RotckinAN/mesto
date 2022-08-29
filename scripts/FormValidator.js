@@ -9,14 +9,14 @@ export class FormValidator {
         this._submitButton = submitButton
     }
 
-    _handleFormInput = (evt) => {
+    _handleFormInput(evt) {
         const form = evt.currentTarget;
 
         this._showFieldError(evt, form);
         this._setSubmitButtonState(form)
     }
 
-    _showFieldError = (evt, form) => {
+    _showFieldError(evt, form) {
         const input = evt.target;
         const isValid = input.validity.valid;
         const formError = form.querySelector(`.${input.id}-error`);
@@ -31,7 +31,7 @@ export class FormValidator {
         }
     }
 
-    _setSubmitButtonState = (form) => {
+    _setSubmitButtonState(form) {
         const isValid = form.checkValidity();
 
         if(isValid) {
@@ -43,7 +43,7 @@ export class FormValidator {
         }
     }
 
-    hideErrorMessages = () => {
+    hideErrorMessages() {
         const inputArray = Array.from(this._formType.querySelectorAll(this._popupItem));
         inputArray.forEach((formInput) => {
             formInput.classList.remove(this._popupError)
@@ -55,7 +55,9 @@ export class FormValidator {
         })
     }
 
-    enableValidation = () => {
-        this._formType.addEventListener('input', this._handleFormInput)
+    enableValidation() {
+        this._formType.addEventListener('input', (evt) => {
+            this._handleFormInput(evt)
+        })
     }
 }

@@ -1,27 +1,27 @@
 // массив с данными для фото-карточекы
 export const cards = [
     {
-        name: "Бад-Гойзерн",
-        link: "./images/badGoisern.jpg",
+        pictureTitle: "Бад-Гойзерн",
+        pictureLink: "./images/badGoisern.jpg",
     },
     {
-        name: "Квай",
-        link: "./images/asia.jpg",
+        pictureTitle: "Квай",
+        pictureLink: "./images/asia.jpg",
     },
     {
-        name: "Барселона",
-        link: "./images/barcelona.jpg",
+        pictureTitle: "Барселона",
+        pictureLink: "./images/barcelona.jpg",
     },
     {
-        name: "Миттенвальд",
-        link: "./images/mittenwald.jpg",
+        pictureTitle: "Миттенвальд",
+        pictureLink: "./images/mittenwald.jpg",
     },
     {
-        name: "Лос-Гигантес",
-        link: "./images/losGigantes.jpg",
+        pictureTitle: "Лос-Гигантес",
+        pictureLink: "./images/losGigantes.jpg",
     },
     {
-        name: "Гаэта",
-        link: "./images/gaeta.jpg",
+        pictureTitle: "Гаэта",
+        pictureLink: "./images/gaeta.jpg",
     },
 ];
