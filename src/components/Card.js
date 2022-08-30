@@ -1,4 +1,4 @@
-import {selectors} from './constants.js';
+import {selectors} from '../utils/constants.js';
 
 export class Card {
     constructor({data, handleCardClick}, templateSelector) {

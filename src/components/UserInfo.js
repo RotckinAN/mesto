@@ -1,5 +1,3 @@
-import {jobInput, nameInput, profileSubtitle, profileTitle} from "./constants.js";
-
 export class UserInfo {
     constructor({userNameSelector, userInfoSelector}) {
         this._userNameSelector = userNameSelector;
