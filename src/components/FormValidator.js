@@ -6,20 +6,20 @@ export class FormValidator {
         this._inputError = validationSelectors.inputError;
         this._popupItem = validationSelectors.popupItem;
         this._formType = formType;
-        this._submitButton = submitButton
+        this._submitButton = submitButton;
+        this._inputArray = Array.from(this._formType.querySelectorAll(this._popupItem));
+        this._formErrorArray = Array.from(this._formType.querySelectorAll(this._inputError))
     }
 
     _handleFormInput(evt) {
-        const form = evt.currentTarget;
-
-        this._showFieldError(evt, form);
-        this._setSubmitButtonState(form)
+        this._showFieldError(evt);
+        this.setSubmitButtonState()
     }
 
-    _showFieldError(evt, form) {
+    _showFieldError(evt) {
         const input = evt.target;
         const isValid = input.validity.valid;
-        const formError = form.querySelector(`.${input.id}-error`);
+        const formError = this._formType.querySelector(`.${input.id}-error`);
 
         if (!isValid) {
             formError.classList.add(this._inputErrorActive);
@@ -31,8 +31,8 @@ export class FormValidator {
         }
     }
 
-    _setSubmitButtonState(form) {
-        const isValid = form.checkValidity();
+    setSubmitButtonState() {
+        const isValid = this._formType.checkValidity();
 
         if(isValid) {
             this._submitButton.removeAttribute('disabled');
@@ -44,13 +44,11 @@ export class FormValidator {
     }
 
     hideErrorMessages() {
-        const inputArray = Array.from(this._formType.querySelectorAll(this._popupItem));
-        inputArray.forEach((formInput) => {
+        this._inputArray.forEach((formInput) => {
             formInput.classList.remove(this._popupError)
         });
 
-        const formErrorArray = Array.from(this._formType.querySelectorAll(this._inputError));
-        formErrorArray.forEach((error) => {
+        this._formErrorArray.forEach((error) => {
             error.classList.remove(this._inputErrorActive)
         })
     }

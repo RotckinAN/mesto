@@ -23,20 +23,6 @@ import {PopupWithImage} from "../components/PopupWithImage.js";
 import {PopupWithForm} from "../components/PopupWithForm.js";
 import {UserInfo} from "../components/UserInfo.js";
 
-// общая функция запуска кнопки при открытии попапа
-function activateButton(popup, config) {
-    const button = popup.querySelector(config.button);
-    button.removeAttribute("disabled");
-    button.classList.remove(config.buttonInvalid);
-}
-
-// общая функция отключения кнопки при открытии попапа
-function deactivateButton(popup, config) {
-    const button = popup.querySelector(config.button);
-    button.setAttribute("disabled", true);
-    button.classList.add(config.buttonInvalid);
-}
-
 // Создание экземпляра данных попапа редактирования профиля
 const userInfoForPopup = new UserInfo({
     userNameSelector: profileTitle,
@@ -44,18 +30,18 @@ const userInfoForPopup = new UserInfo({
 });
 
 // Создание экземпляра попапа редактирования профиля
-const editPopup = new PopupWithForm(popupElementEdit,
+const popupProfile = new PopupWithForm(popupElementEdit,
     (inputValue) => {
         userInfoForPopup.setUserInfo(inputValue);
     });
 
 // слушатель событий попапа редактирования профиля
 popupEditOpenButtonElement.addEventListener("click", () => {
-    editPopup.open();
+    popupProfile.open();
     const {name, about} = userInfoForPopup.getUserInfo();
     nameInput.value = name;
     jobInput.value = about;
-    activateButton(popupElementEdit, selectors);
+    formEditProfileValidity.setSubmitButtonState();
     formEditProfileValidity.hideErrorMessages();
 });
 
@@ -63,47 +49,43 @@ popupEditOpenButtonElement.addEventListener("click", () => {
 const photoFullSizeElement = new PopupWithImage(photoFullSize);
 photoFullSizeElement.setEventListeners();
 
+// функция создания экземпляра фотокарточки
+const createCard = (card) => {
+    const photoCard = new Card({
+        data: card,
+        handleCardClick: (item) =>{
+            photoFullSizeElement.open(item)
+        }}, selectors.template);
+    return photoCard.generateCard();
+}
+
 // создание первоначальных фотокарточек
-const initialCards = new Section({
+const cardsContainer = new Section({
     data: cards,
-    renderer: (card) => {
-        const photoCard = new Card({
-            data: card,
-            handleCardClick: (item) =>{
-                photoFullSizeElement.open(item)
-            }}, selectors.template);
-        initialCards.addItem(photoCard.generateCard())
-    }
+    renderer: (cardItem) => cardsContainer.addItem(createCard(cardItem))
 }, elementsList);
 
 // Создание экземпляра попапа добавления фото
-const addImagePopup = new PopupWithForm(popupElementAdd,
+const popupImage = new PopupWithForm(popupElementAdd,
     (newArrayPhoto) => {
         const newCard = new Section({
             data: newArrayPhoto,
-            renderer: (card) => {
-                const newCardAdd = new Card({
-                    data: card,
-                    handleCardClick: (item) => {
-                        photoFullSizeElement.open(item)
-                    }},selectors.template);
-                newCard.addItem(newCardAdd.generateCard())
-            }
+            renderer: (cardItem) => cardsContainer.addItem(createCard(cardItem))
         }, elementsList);
         newCard.renderNewItem();
     });
 
 // слушатель событий попапа добавления фото
 popupAddOpenButtonElement.addEventListener("click", () => {
-    addImagePopup.open();
-    deactivateButton(popupElementAdd, selectors);
+    popupImage.open();
+    formAddPhotoValidity.setSubmitButtonState();
     formAddPhotoValidity.hideErrorMessages();
 });
 
 // запуск методов на установку слушателей событий и на отрисовку фотокарточек
-editPopup.setEventListeners();
-addImagePopup.setEventListeners();
-initialCards.renderItems();
+popupProfile.setEventListeners();
+popupImage.setEventListeners();
+cardsContainer.renderItems();
 
 // валидация формы редактированяи профиля
 const formEditProfileSubmitButton = formElementEdit.querySelector(selectors.button);
