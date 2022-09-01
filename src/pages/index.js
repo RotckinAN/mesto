@@ -68,11 +68,8 @@ const cardsContainer = new Section({
 // Создание экземпляра попапа добавления фото
 const popupImage = new PopupWithForm(popupElementAdd,
     (newArrayPhoto) => {
-        const newCard = new Section({
-            data: newArrayPhoto,
-            renderer: (cardItem) => cardsContainer.addItem(createCard(cardItem))
-        }, elementsList);
-        newCard.renderNewItem();
+        const newCard = createCard(newArrayPhoto);
+        cardsContainer.addItem(newCard)
     });
 
 // слушатель событий попапа добавления фото

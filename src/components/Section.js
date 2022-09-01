@@ -14,8 +14,4 @@ export class Section {
             this._renderer(card)
         });
     }
-
-    renderNewItem() {
-        this._renderer(this._renderedItems)
-    }
 }
