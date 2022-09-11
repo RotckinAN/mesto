@@ -12,11 +12,13 @@
 
     <main class="content page__content">
         <section class="profile" aria-label="Секция с профилем">
-            <img class="profile__avatar" src="<%=require('./images/profile-photo.jpg')%>" alt="Фотография на аватар">
+            <div class="profile__overlay">
+                <img class="profile__avatar" src="#" alt="Фотография на аватар">
+            </div>
             <div class="profile__info">
-                <h1 class="profile__title">Жак-Ив Кусто</h1>
+                <h1 class="profile__title"></h1>
                 <button class="profile__edit-button" type="button" aria-label="edit"></button>
-                <p class="profile__subtitle">Исследователь океана</p>
+                <p class="profile__subtitle"></p>
             </div>
             <button class="profile__add-button" type="button" aria-label="add"></button>
         </section>
@@ -30,18 +32,18 @@
         <p class="footer__text">© 2022 Mesto Russia</p>
     </footer>
     
-<!-- 1-й попап -->
+<!-- попап редактирования профиля -->
     <div class="popup popup_type_editProfile">
         <div class="popup__container">
             <button class="popup__close" type="button"></button>
                 <form action="#" name="profileEditingForm" class="popup__content popup__content_type_editProfile" novalidate>
                     <h2 class="popup__content-title">Редактировать профиль</h2>
                     <label for="inputName">
-                        <input type="text" name="nameForm" class="popup__item popup__item_input_name" autocomplete="off" id="inputName" value="" placeholder="Имя" minlength="2" maxlength="40" required>
+                        <input type="text" name="name" class="popup__item popup__item_input_name" autocomplete="off" id="inputName" value="" placeholder="Имя" minlength="2" maxlength="40" required>
                         <span class="popup__input-error inputName-error"></span>
                     </label>
                     <label for="inputJob">
-                        <input type="text" name="jobForm" class="popup__item popup__item_input_job" autocomplete="off" id="inputJob" value="" placeholder="О себе" minlength="2" maxlength="200" required>
+                        <input type="text" name="about" class="popup__item popup__item_input_job" autocomplete="off" id="inputJob" value="" placeholder="О себе" minlength="2" maxlength="200" required>
                         <span class="popup__input-error inputJob-error"></span>
                     </label>
                     <button type="submit" value="Сохранить" class="popup__save-button popup__save-button_invalid" id="save-button" disabled >Сохранить</button>
@@ -49,22 +51,48 @@
         </div>
     </div>
 
-<!-- 2-й попап -->
+<!-- попап добавления новых фото -->
     <div class="popup popup_type_addPicture">
         <div class="popup__container">
             <button class="popup__close" type="button"></button>
                 <form action="#" name="pictureAddForm" class="popup__content popup__content_type_addPicture" novalidate>
                     <h2 class="popup__content-title">Новое место</h2>
                     <label for="inputPicturePopup">
-                        <input type="text" name="pictureTitle" class="popup__item popup__item_input_pictureName" autocomplete="off" id="inputPicturePopup" value="" placeholder='Название' minlength="2" maxlength="30" required>
+                        <input type="text" name="name" class="popup__item popup__item_input_pictureName" autocomplete="off" id="inputPicturePopup" value="" placeholder='Название' minlength="2" maxlength="30" required>
                         <span class="popup__input-error inputPicturePopup-error"></span>
                     </label>
                     <label for="inputPictureLink">
-                        <input type="url" name="pictureLink" class="popup__item popup__item_input_picture" autocomplete="off" id="inputPictureLink" value="" placeholder='Ссылка на картинку' required>
+                        <input type="url" name="link" class="popup__item popup__item_input_picture" autocomplete="off" id="inputPictureLink" value="" placeholder='Ссылка на картинку' required>
                         <span class="popup__input-error inputPictureLink-error"></span>
                     </label>
                     <button type="submit" value="Создать" class="popup__save-button popup__save-button_invalid" id="create-button">Создать</button>
                 </form>
+        </div>
+    </div>
+
+<!--    попап подтверждения удаления карточки-->
+    <div class="popup popup_type_confirmDelete">
+        <div class="popup__container">
+            <button class="popup__close"></button>
+            <div class="popup__content">
+                <h2 class="popup__content-title popup__content-title_type_confirmDelete">Вы уверены?</h2>
+                <button type="submit" value="Да" class="popup__save-button" id="confirm-button">Да</button>
+            </div>
+        </div>
+    </div>
+
+<!--    попап обновления аватара-->
+    <div class="popup popup_type_avatarUpdate">
+        <div class="popup__container">
+            <button class="popup__close"></button>
+            <form action="#" class="popup__content">
+                <h2 class="popup__content-title popup__content-title_type_avatarCreate">Обновить аватар</h2>
+                <label for="inputPictureAvatar">
+                    <input type="url" class="popup__item popup__item_input_avatarPicture" name="pictureAvatar" autocomplete="off" id="inputPictureAvatar" value="" placeholder="Ссылка на картинку" required>
+                    <span class="popup__input-error inputPictureAvatar-error"></span>
+                </label>
+                <button type="submit" value="Сохранить" class="popup__save-button popup__save-button_invalid" id="avatarCreate-button">Сохранить</button>
+            </form>
         </div>
     </div>
 
@@ -84,7 +112,10 @@
             <button class="element__trash" type="button" aria-label="trash"></button>
             <div class="element__container">
                 <h2 class="element__title"></h2>
-                <button class="element__like" type="button" aria-label="like"></button>
+                <div class="element__likeContainer">
+                    <button class="element__like" type="button" aria-label="like"></button>
+                    <p class="element__likeNumbers">0</p>
+                </div>
             </div>
         </li>
     </template>

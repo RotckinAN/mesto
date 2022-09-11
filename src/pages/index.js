@@ -1,7 +1,8 @@
 import './index.css';
 
-import {cards} from '../utils/cards.js';
-import {selectors,
+// import {cards} from '../utils/cards.js';
+import {
+    selectors,
     nameInput,
     jobInput,
     profileTitle,
@@ -13,7 +14,8 @@ import {selectors,
     formElementEdit,
     popupAddOpenButtonElement,
     elementsList,
-    photoFullSize
+    photoFullSize,
+    profileAvatar
 } from '../utils/constants.js';
 
 import {Card} from '../components/Card.js';
@@ -22,6 +24,25 @@ import {Section} from '../components/Section.js';
 import {PopupWithImage} from "../components/PopupWithImage.js";
 import {PopupWithForm} from "../components/PopupWithForm.js";
 import {UserInfo} from "../components/UserInfo.js";
+import {Api} from "../components/Api.js";
+
+//Создание экземпляра класса API
+const api = new Api({
+    url: 'https://mesto.nomoreparties.co/v1/cohort-50/',
+    headers: {
+        authorization: 'd9722592-b388-4281-b273-bb490f84d549',
+        'Content-type': 'application/json'
+    }
+});
+
+//получение данных пользователя с сервера
+const userInfoByRequest = api.getUserInfoByRequest();
+userInfoByRequest.then((data) => {
+    userInfoForPopup.setUserInfo(data)
+    // profileTitle.textContent = data.name;
+    // profileSubtitle.textContent = data.about;
+    profileAvatar.src = data.avatar;
+})
 
 // Создание экземпляра данных попапа редактирования профиля
 const userInfoForPopup = new UserInfo({
@@ -32,7 +53,12 @@ const userInfoForPopup = new UserInfo({
 // Создание экземпляра попапа редактирования профиля
 const popupProfile = new PopupWithForm(popupElementEdit,
     (inputValue) => {
-        userInfoForPopup.setUserInfo(inputValue);
+    const patchUserInfo = api.patchProfileInfo(inputValue);
+    patchUserInfo.then((userData) => {
+        profileTitle.textContent = userData.name;
+        profileSubtitle.textContent = userData.about;
+        userInfoForPopup.setUserInfo(userData)
+        })
     });
 
 // слушатель событий попапа редактирования профиля
@@ -59,11 +85,23 @@ const createCard = (card) => {
     return photoCard.generateCard();
 }
 
+// создание экземпляра добавления карточки в разметку
+
+
 // создание первоначальных фотокарточек
-const cardsContainer = new Section({
-    data: cards,
+const initialCards = api.getInitialCards();
+initialCards.then((resData) => {
+    const cardsContainer = new Section({
+    data: resData,
     renderer: (cardItem) => cardsContainer.addItem(createCard(cardItem))
 }, elementsList);
+    cardsContainer.renderItems()
+})
+
+// const cardsContainer = new Section({
+//     data: cards,
+//     renderer: (cardItem) => cardsContainer.addItem(createCard(cardItem))
+// }, elementsList);
 
 // Создание экземпляра попапа добавления фото
 const popupImage = new PopupWithForm(popupElementAdd,
@@ -82,7 +120,7 @@ popupAddOpenButtonElement.addEventListener("click", () => {
 // запуск методов на установку слушателей событий и на отрисовку фотокарточек
 popupProfile.setEventListeners();
 popupImage.setEventListeners();
-cardsContainer.renderItems();
+// cardsContainer.renderItems();
 
 // валидация формы редактированяи профиля
 const formEditProfileSubmitButton = formElementEdit.querySelector(selectors.button);

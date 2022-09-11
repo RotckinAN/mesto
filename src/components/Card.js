@@ -2,8 +2,8 @@ import {selectors} from '../utils/constants.js';
 
 export class Card {
     constructor({data, handleCardClick}, templateSelector) {
-        this._name = data.pictureTitle;
-        this._link = data.pictureLink;
+        this._name = data.name;
+        this._link = data.link;
         this._handleCardClick = handleCardClick;
         this._templateSelector = templateSelector;
         this._element = this._getTemplate();

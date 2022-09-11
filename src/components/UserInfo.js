@@ -11,8 +11,8 @@ export class UserInfo {
         }
     }
 
-    setUserInfo({nameForm, jobForm}) {
-        this._userNameSelector.textContent = nameForm;
-        this._userInfoSelector.textContent = jobForm
+    setUserInfo({name, about}) {
+        this._userNameSelector.textContent = name;
+        this._userInfoSelector.textContent = about
     }
 }

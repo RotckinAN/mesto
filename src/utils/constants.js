@@ -8,6 +8,7 @@ export const selectors = {
     itemInputJob: ".popup__item_input_job",
     profTitle: ".profile__title",
     profSubtitle: ".profile__subtitle",
+    profileAvatar: ".profile__avatar",
     openedPopup: "popup_opened",
     addButton: ".profile__add-button",
     popupEdit: ".popup_type_editProfile",
@@ -42,6 +43,7 @@ export const nameInput = formElementEdit.querySelector(selectors.itemInputName);
 export const jobInput = formElementEdit.querySelector(selectors.itemInputJob); // выбираю инпут в попапе (работа)
 export const profileTitle = document.querySelector(selectors.profTitle); // выбираю заголовок на странице (имя)
 export const profileSubtitle = document.querySelector(selectors.profSubtitle); //выбираю подзаголовок на странице (работа)
+export const profileAvatar = document.querySelector(selectors.profileAvatar) // выбираю аватар пользователя
 export const popupElementEdit = document.querySelector(selectors.popupEdit); // выбираю 1-й попап
 export const popupElementAdd = document.querySelector(selectors.popupAdd); // выбираю 2-й попап
 export const formElementAdd = popupElementAdd.querySelector(selectors.popupContentAdd); // выбираю форму 2-го попапа
