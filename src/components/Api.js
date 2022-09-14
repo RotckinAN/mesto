@@ -46,4 +46,61 @@ export class Api {
                 console.error(err)
             })
     }
+
+    postNewPhoto(newPhoto) {
+        return fetch(`${this._url}cards`, {
+            method: 'POST',
+            headers: this._headers,
+            body: JSON.stringify(newPhoto)
+        })
+            .then(this._getRequestData())
+            .catch((err) => {
+                console.error(err)
+            })
+    }
+
+    deleteCard(cardId) {
+        return fetch(`${this._url}cards/${cardId}`, {
+            method: 'DELETE',
+            headers: this._headers,
+        })
+            .then(this._getRequestData())
+            .catch((err) => {
+                console.error(err)
+            })
+    }
+
+    putLike(cardId) {
+        return fetch(`${this._url}cards/${cardId}/likes`, {
+            method: 'PUT',
+            headers: this._headers,
+        })
+            .then(this._getRequestData())
+            .catch((err) => {
+                console.error(err)
+            })
+    }
+
+    deleteLike(cardId) {
+        return fetch(`${this._url}cards/${cardId}/likes`, {
+            method: 'DELETE',
+            headers: this._headers,
+        })
+            .then(this._getRequestData())
+            .catch((err) => {
+                console.error(err)
+            })
+    }
+
+    patchProfileAvatar(newAvatar) {
+        return fetch(`${this._url}users/me/avatar`, {
+            method: 'PATCH',
+            headers: this._headers,
+            body: JSON.stringify(newAvatar)
+        })
+            .then(this._getRequestData())
+            .catch((err) => {
+                console.error(err)
+            })
+    }
 }

@@ -1,6 +1,5 @@
 export class Section {
-    constructor({data, renderer}, insertionPoint) {
-        this._renderedItems = data;
+    constructor({renderer}, insertionPoint) {
         this._renderer = renderer;
         this._container = insertionPoint
     }
@@ -9,9 +8,7 @@ export class Section {
         this._container.prepend(item)
     }
 
-    renderItems() {
-        this._renderedItems.forEach((card) => {
-            this._renderer(card)
-        });
+    renderItems(card) {
+        this._renderer(card)
     }
 }

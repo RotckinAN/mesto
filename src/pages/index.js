@@ -1,6 +1,5 @@
 import './index.css';
 
-// import {cards} from '../utils/cards.js';
 import {
     selectors,
     nameInput,
@@ -15,7 +14,11 @@ import {
     popupAddOpenButtonElement,
     elementsList,
     photoFullSize,
-    profileAvatar
+    profileAvatar,
+    popupDeleteConfirm,
+    popupAvatar,
+    editAvatarButton,
+    formElementAvatarEdit,
 } from '../utils/constants.js';
 
 import {Card} from '../components/Card.js';
@@ -25,6 +28,7 @@ import {PopupWithImage} from "../components/PopupWithImage.js";
 import {PopupWithForm} from "../components/PopupWithForm.js";
 import {UserInfo} from "../components/UserInfo.js";
 import {Api} from "../components/Api.js";
+import {PopupWithSubmit} from "../components/popupWithSubmit.js";
 
 //Создание экземпляра класса API
 const api = new Api({
@@ -35,14 +39,7 @@ const api = new Api({
     }
 });
 
-//получение данных пользователя с сервера
-const userInfoByRequest = api.getUserInfoByRequest();
-userInfoByRequest.then((data) => {
-    userInfoForPopup.setUserInfo(data)
-    // profileTitle.textContent = data.name;
-    // profileSubtitle.textContent = data.about;
-    profileAvatar.src = data.avatar;
-})
+let userId = "";
 
 // Создание экземпляра данных попапа редактирования профиля
 const userInfoForPopup = new UserInfo({
@@ -50,14 +47,27 @@ const userInfoForPopup = new UserInfo({
     userInfoSelector: profileSubtitle
 });
 
+//получение данных пользователя с сервера
+const userInfoByRequest = api.getUserInfoByRequest();
+userInfoByRequest.then((data) => {
+    userId = data._id;
+    userInfoForPopup.setUserInfo(data);
+    profileAvatar.src = data.avatar;
+})
+
 // Создание экземпляра попапа редактирования профиля
 const popupProfile = new PopupWithForm(popupElementEdit,
     (inputValue) => {
+    renderLoadingSave(true, popupElementEdit);
     const patchUserInfo = api.patchProfileInfo(inputValue);
+
     patchUserInfo.then((userData) => {
         profileTitle.textContent = userData.name;
         profileSubtitle.textContent = userData.about;
         userInfoForPopup.setUserInfo(userData)
+        })
+        .finally(() => {
+            renderLoadingSave(false, popupElementEdit)
         })
     });
 
@@ -75,39 +85,81 @@ popupEditOpenButtonElement.addEventListener("click", () => {
 const photoFullSizeElement = new PopupWithImage(photoFullSize);
 photoFullSizeElement.setEventListeners();
 
+// создание экземпляра попапа для подтверждения удаления фогокарточки
+let cardID = "";
+let cardActualToDelete;
+const popupWithSubmit = new PopupWithSubmit(popupDeleteConfirm, () => {
+    const deleteCard = api.deleteCard(cardID);
+    deleteCard.then(() => {
+        cardActualToDelete.remove();
+        cardActualToDelete = ''
+    })
+});
+popupWithSubmit.setEventListeners();
+
 // функция создания экземпляра фотокарточки
 const createCard = (card) => {
     const photoCard = new Card({
         data: card,
-        handleCardClick: (item) =>{
+        handleCardClick: (item) => {
             photoFullSizeElement.open(item)
-        }}, selectors.template);
+        },
+        handleLikeClick: (card, actualCardId) => {
+            if (card.querySelector(selectors.buttonLike).classList.contains(selectors.buttonLikeActive)) {
+                card.querySelector(selectors.buttonLike).classList.toggle(selectors.buttonLikeActive);
+                const deactivatedLike = api.deleteLike(actualCardId);
+                deactivatedLike.then((res) => {
+                    photoCard.getNumbersOfLikes(res.likes.length);
+                })
+            } else {
+                card.querySelector(selectors.buttonLike).classList.toggle(selectors.buttonLikeActive);
+                const activatedLike = api.putLike(actualCardId);
+                activatedLike.then((res) => {
+                    photoCard.getNumbersOfLikes(res.likes.length);
+                })
+            }
+        },
+        handleDeleteIconClick: (actualCardId, actualCard) => {
+            cardID = actualCardId;
+            cardActualToDelete = actualCard;
+
+            popupWithSubmit.open();
+        },
+        getUserId: () => {
+            return userId;
+        },
+    }, selectors.template);
     return photoCard.generateCard();
 }
 
 // создание экземпляра добавления карточки в разметку
-
+const cardsContainer = new Section({
+    renderer: (cardItem) => {
+        cardsContainer.addItem(createCard(cardItem))
+    }
+}, elementsList);
 
 // создание первоначальных фотокарточек
 const initialCards = api.getInitialCards();
 initialCards.then((resData) => {
-    const cardsContainer = new Section({
-    data: resData,
-    renderer: (cardItem) => cardsContainer.addItem(createCard(cardItem))
-}, elementsList);
-    cardsContainer.renderItems()
+    resData.reverse();
+    resData.map((cardData) => {
+        cardsContainer.renderItems(cardData);
+    })
 })
-
-// const cardsContainer = new Section({
-//     data: cards,
-//     renderer: (cardItem) => cardsContainer.addItem(createCard(cardItem))
-// }, elementsList);
 
 // Создание экземпляра попапа добавления фото
 const popupImage = new PopupWithForm(popupElementAdd,
-    (newArrayPhoto) => {
-        const newCard = createCard(newArrayPhoto);
-        cardsContainer.addItem(newCard)
+    (newInputDataPhoto) => {
+        renderLoadingCreate(true, popupElementAdd);
+        const newPhoto = api.postNewPhoto(newInputDataPhoto);
+        newPhoto.then((photoRes) => {
+            const newCard = createCard(photoRes);
+            cardsContainer.addItem(newCard)
+        })
+        .finally(() => {
+            renderLoadingCreate(false, popupElementAdd)
+        })
     });
 
 // слушатель событий попапа добавления фото
@@ -117,18 +169,60 @@ popupAddOpenButtonElement.addEventListener("click", () => {
     formAddPhotoValidity.hideErrorMessages();
 });
 
+// создание экземпляра попапа редактирования аватара профиля
+const popupProfileAvatar = new PopupWithForm(popupAvatar,
+    (newInputDataAvatar) => {
+        renderLoadingSave(true, popupAvatar)
+        const newAvatar = api.patchProfileAvatar(newInputDataAvatar);
+        newAvatar.then((avatarRes) => {
+            profileAvatar.src = avatarRes.avatar
+        })
+        .finally(() => {
+            renderLoadingSave(false, popupAvatar)
+        })
+});
+
+// слушатель события попапа редактирования аватара профиля
+editAvatarButton.addEventListener('click', () => {
+    popupProfileAvatar.open();
+    formEditProfileAvatarValidity.setSubmitButtonState();
+    formEditProfileAvatarValidity.hideErrorMessages()
+})
+
 // запуск методов на установку слушателей событий и на отрисовку фотокарточек
 popupProfile.setEventListeners();
 popupImage.setEventListeners();
-// cardsContainer.renderItems();
+popupProfileAvatar.setEventListeners();
 
 // валидация формы редактированяи профиля
 const formEditProfileSubmitButton = formElementEdit.querySelector(selectors.button);
 const formEditProfileValidity = new FormValidator(selectors, formElementEdit, formEditProfileSubmitButton);
 formEditProfileValidity.enableValidation();
 
-
 // валадиция формы добавления новых фото
 const formAddPhotoSubmitButton = formElementAdd.querySelector(selectors.button);
 const formAddPhotoValidity = new FormValidator(selectors, formElementAdd, formAddPhotoSubmitButton);
 formAddPhotoValidity.enableValidation();
+
+// валидация формы изменения аватара профиля
+const formEditProfileButton = formElementAvatarEdit.querySelector(selectors.button);
+const formEditProfileAvatarValidity = new FormValidator(selectors, formElementAvatarEdit, formEditProfileButton);
+formEditProfileAvatarValidity.enableValidation();
+
+// функция ожидания запроса (спиннир) - "Сохранение..."
+export const renderLoadingSave = (isLoading, popupSelector) => {
+    if (isLoading) {
+        popupSelector.querySelector(selectors.button).textContent = 'Сохранение...'
+    } else {
+        popupSelector.querySelector(selectors.button).textContent = 'Сохранить'
+    }
+}
+
+// функция ожидания запроса (спиннир) - "Создание..."
+export const renderLoadingCreate = (isLoading, popupSelector) => {
+    if (isLoading) {
+        popupSelector.querySelector(selectors.button).textContent = 'Создание...'
+    } else {
+        popupSelector.querySelector(selectors.button).textContent = 'Создать'
+    }
+}

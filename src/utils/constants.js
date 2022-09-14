@@ -32,7 +32,13 @@ export const selectors = {
     button: '.popup__save-button',
     buttonInvalid: 'popup__save-button_invalid',
     inputError: '.popup__input-error',
-    popupItem: '.popup__item'
+    popupItem: '.popup__item',
+    likeNumbers: '.element__likeNumbers',
+    hiddenButtonRemove: 'element__trash_type_hidden',
+    popupDelete: '.popup_type_confirmDelete',
+    editAvatarButton: '.profile__overlay',
+    avatarEdit: '.popup_type_avatarUpdate',
+    popupContentAvatarEdit: '.popup__content_type_editAvatar'
 }
 
 // объявление переменных
@@ -51,3 +57,7 @@ export const elementsList = document.querySelector(selectors.elementsList);
 export const photoFullSize = document.querySelector(selectors.photoFullSize);
 export const photoFullSizeTitle = photoFullSize.querySelector(selectors.photoFullSizeTitle);
 export const photoFullSizeLink = photoFullSize.querySelector(selectors.photoFullSizeElement);
+export const popupDeleteConfirm = document.querySelector(selectors.popupDelete);
+export const editAvatarButton = document.querySelector(selectors.editAvatarButton);
+export const popupAvatar = document.querySelector(selectors.avatarEdit);
+export const formElementAvatarEdit = popupAvatar.querySelector(selectors.popupContentAvatarEdit);
