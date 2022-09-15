@@ -19,9 +19,6 @@ export class Api {
             headers: this._headers
         })
             .then(this._getRequestData())
-            .catch((err) => {
-                console.error(err)
-            })
     }
 
     getInitialCards() {
@@ -30,9 +27,6 @@ export class Api {
             headers: this._headers
         })
             .then(this._getRequestData())
-            .catch((err) => {
-                console.error(err)
-            })
     }
 
     patchProfileInfo(profileInfo) {
@@ -42,9 +36,6 @@ export class Api {
             body: JSON.stringify(profileInfo)
         })
             .then(this._getRequestData())
-            .catch((err) => {
-                console.error(err)
-            })
     }
 
     postNewPhoto(newPhoto) {
@@ -54,9 +45,6 @@ export class Api {
             body: JSON.stringify(newPhoto)
         })
             .then(this._getRequestData())
-            .catch((err) => {
-                console.error(err)
-            })
     }
 
     deleteCard(cardId) {
@@ -65,9 +53,6 @@ export class Api {
             headers: this._headers,
         })
             .then(this._getRequestData())
-            .catch((err) => {
-                console.error(err)
-            })
     }
 
     putLike(cardId) {
@@ -76,9 +61,6 @@ export class Api {
             headers: this._headers,
         })
             .then(this._getRequestData())
-            .catch((err) => {
-                console.error(err)
-            })
     }
 
     deleteLike(cardId) {
@@ -87,9 +69,6 @@ export class Api {
             headers: this._headers,
         })
             .then(this._getRequestData())
-            .catch((err) => {
-                console.error(err)
-            })
     }
 
     patchProfileAvatar(newAvatar) {
@@ -99,8 +78,5 @@ export class Api {
             body: JSON.stringify(newAvatar)
         })
             .then(this._getRequestData())
-            .catch((err) => {
-                console.error(err)
-            })
     }
 }

@@ -54,6 +54,9 @@ userInfoByRequest.then((data) => {
     userInfoForPopup.setUserInfo(data);
     profileAvatar.src = data.avatar;
 })
+    .catch((err) => {
+        console.error(err)
+    })
 
 // Создание экземпляра попапа редактирования профиля
 const popupProfile = new PopupWithForm(popupElementEdit,
@@ -65,6 +68,9 @@ const popupProfile = new PopupWithForm(popupElementEdit,
         profileTitle.textContent = userData.name;
         profileSubtitle.textContent = userData.about;
         userInfoForPopup.setUserInfo(userData)
+        })
+        .catch((err) => {
+            console.error(err)
         })
         .finally(() => {
             renderLoadingSave(false, popupElementEdit)
@@ -94,6 +100,9 @@ const popupWithSubmit = new PopupWithSubmit(popupDeleteConfirm, () => {
         cardActualToDelete.remove();
         cardActualToDelete = ''
     })
+        .catch((err) => {
+            console.error(err)
+        })
 });
 popupWithSubmit.setEventListeners();
 
@@ -111,11 +120,17 @@ const createCard = (card) => {
                 deactivatedLike.then((res) => {
                     photoCard.getNumbersOfLikes(res.likes.length);
                 })
+                .catch((err) => {
+                    console.error(err)
+                })
             } else {
                 card.querySelector(selectors.buttonLike).classList.toggle(selectors.buttonLikeActive);
                 const activatedLike = api.putLike(actualCardId);
                 activatedLike.then((res) => {
                     photoCard.getNumbersOfLikes(res.likes.length);
+                })
+                .catch((err) => {
+                    console.error(err)
                 })
             }
         },
@@ -147,6 +162,9 @@ initialCards.then((resData) => {
         cardsContainer.renderItems(cardData);
     })
 })
+    .catch((err) => {
+        console.error(err)
+    })
 
 // Создание экземпляра попапа добавления фото
 const popupImage = new PopupWithForm(popupElementAdd,
@@ -156,6 +174,9 @@ const popupImage = new PopupWithForm(popupElementAdd,
         newPhoto.then((photoRes) => {
             const newCard = createCard(photoRes);
             cardsContainer.addItem(newCard)
+        })
+        .catch((err) => {
+            console.error(err)
         })
         .finally(() => {
             renderLoadingCreate(false, popupElementAdd)
@@ -176,6 +197,9 @@ const popupProfileAvatar = new PopupWithForm(popupAvatar,
         const newAvatar = api.patchProfileAvatar(newInputDataAvatar);
         newAvatar.then((avatarRes) => {
             profileAvatar.src = avatarRes.avatar
+        })
+        .catch((err) => {
+            console.error(err)
         })
         .finally(() => {
             renderLoadingSave(false, popupAvatar)
