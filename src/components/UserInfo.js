@@ -12,7 +12,11 @@ export class UserInfo {
     }
 
     setUserInfo({name, about}) {
-        this._userNameSelector.textContent = name;
-        this._userInfoSelector.textContent = about
+        if (name) {
+            this._userNameSelector.textContent = name
+        }
+        if (about) {
+            this._userInfoSelector.textContent = about
+        }
     }
 }
