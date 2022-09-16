@@ -40,24 +40,15 @@ const api = new Api({
     }
 });
 
-let userId = null;
+//получение данных пользователя с сервера
+const userInfoByRequest = api.getUserInfoByRequest();
+let userId = "";
 
 // Создание экземпляра данных попапа редактирования профиля
 const userInfoForPopup = new UserInfo({
     userNameSelector: profileTitle,
     userInfoSelector: profileSubtitle
 });
-
-//получение данных пользователя с сервера
-const userInfoByRequest = api.getUserInfoByRequest();
-userInfoByRequest.then((data) => {
-    userId = data._id;
-    userInfoForPopup.setUserInfo(data);
-    profileAvatar.src = data.avatar;
-})
-    .catch((err) => {
-        console.error(err)
-    })
 
 // Создание экземпляра попапа редактирования профиля
 const popupProfile = new PopupWithForm(popupElementEdit,
@@ -155,10 +146,13 @@ const cardsContainer = new Section({
     }
 }, elementsList);
 
-// создание первоначальных фотокарточек
+// создание первоначальных фотокарточек и запрос данных пользователя
 const initialCards = api.getInitialCards();
 Promise.all([userInfoByRequest, initialCards])
     .then(([userData, cardData]) => {
+        userId = userData._id;
+        userInfoForPopup.setUserInfo(userData);
+        profileAvatar.src = userData.avatar;
         cardData.reverse();
         cardsContainer.renderItems(cardData)
     })
